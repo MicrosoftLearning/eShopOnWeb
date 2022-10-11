@@ -1,0 +1,42 @@
+trigger: none
+resources:
+- repo: self
+
+variables:
+  location: 'westeurope'
+  templateFile: '.azure/bicep/aci.bicep'
+  subscriptionid: '6829b3f6-89a8-4e99-9260-9c1602b2ca33'
+  azureserviceconnection: 'azure subs unai'
+  webappname: 'az400eshop-unai'
+  acr-login-server: 'acrv2f3ual42h4yy.azurecr.io'
+  acr-username: 'acrv2f3ual42h4yy'
+  resource-group: 'att-az400-ewebshop-unai' 
+
+
+stages:
+- stage: Deploy
+  displayName: Docker Compose to ACI
+  #variable group referencing KV secret
+  variables:
+  - group: 'eshopweb-vg'
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    # Deploy Azure Container Instance using Bicep
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Deploy ACI Bicep
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: '$(azureserviceconnection)'
+        subscriptionId: '$(subscriptionid)'
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: '$(resource-group)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: '$(templateFile)'
+        overrideParameters: ' -name $(webappname) -image $(acr-login-server)/eshopwebmvc:latest -server $(acr-login-server) -username $(acr-username) -password $(acr-secret)'
+        deploymentMode: 'Incremental'
+        # deploymentOutputs: 'asp-json'
+    

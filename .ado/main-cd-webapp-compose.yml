@@ -1,0 +1,76 @@
+trigger: none
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  resource-group: 'AZ400-EWebShop-Unai'
+  location: 'westeurope'
+  templateFile: '.ado/IaC/app-plan.bicep'
+  subscriptionid: '16169bdf-109c-4eb7-9963-3d01e2352774'
+  azureserviceconnection: 'azure subs'
+  webappname: 'az400-webapp-compose-NAME'
+  composeFile: 'docker-compose-webapp.yml'
+  acr-login-server: 'acrwl3ppxlniyfui.azurecr.io'
+  acr-username: 'acrwl3ppxlniyfui'
+
+
+stages:
+- stage: Deploy
+  displayName: Docker Compose to WebApp
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    # Deploy App Service Plan using Bicep
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Deploy App Service Plan Bicep
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: $(azureserviceconnection)
+        subscriptionId: $(subscriptionid)
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: '$(resource-group)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: '$(templateFile)'
+        deploymentMode: 'Incremental'
+        deploymentOutputs: 'asp-json'
+    
+    #Parse App Service Plan  variable
+    - task: PowerShell@2
+      displayName: Parse Bicep Output
+      inputs:
+        targetType: 'inline'
+        script: |
+          $var=ConvertFrom-Json '$(asp-json)'
+          $value=$var.asplan.value
+          Write-Host "##vso[task.setvariable variable=appserviceplan;]$value"
+          echo $appserviceplan
+
+    #Replace tokens in Docker Compose file
+    - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+      inputs:
+        targetFiles: 'docker-compose-webapp.yml'
+        encoding: 'auto'
+        writeBOM: true
+        actionOnMissing: 'warn'
+        keepToken: false
+        actionOnNoFiles: 'continue'
+        enableTransforms: false
+        tokenPrefix: '__'
+        tokenSuffix: '__'
+        enableRecursion: false
+        useLegacyPattern: false
+        enableTelemetry: true
+    #Docker Login into private ACR (TODO alternative, using Docker task and docker ADO Service Connection)
+    #Deploy using Docker Compose
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: '$(azureserviceconnection)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp create --resource-group $(resource-group) --plan $(appserviceplan) --name $(webappname) --multicontainer-config-type compose --multicontainer-config-file $(composeFile) 
+          az webapp config container set --resource-group $(resource-group) --name $(webappname) --docker-registry-server-user $(acr-username)  --docker-registry-server-password $(acr-secret) --docker-registry-server-url https://$(acr-login-server)
