@@ -1,0 +1,57 @@
+# Trigger CD wehn CI executed succesfully
+resources:
+  pipelines:
+    - pipeline: eshopweb-ci-main
+      source: eshopweb-ci-main # given pipeline name
+      trigger: true
+
+
+variables:
+  resource-group: 'AZ400-EWebShop-Unai'
+  location: 'westeurope'
+  templateFile: '.ado/IaC/webapp.bicep'
+  subscriptionid: '16169bdf-109c-4eb7-9963-3d01e2352774'
+  azureserviceconnection: 'azure subs'
+  webappname: 'az400-webapp-unai'
+  # webappname: 'webapp-windows-eshop'
+  
+
+stages:
+- stage: Deploy
+  displayName: Deploy to WebApp
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: windows-latest
+    steps:
+    #download artifacts
+    - download: eshopweb-ci-main
+  
+    # Deploy App Service Plan + App Service using Bicep
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Deploy App Service Plan Bicep
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: '$(azureserviceconnection)'
+        subscriptionId: '$(subscriptionid)'
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: '$(resource-group)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: '$(templateFile)'
+        overrideParameters: '-webAppName $(webappname)'
+        deploymentMode: 'Incremental'
+        deploymentOutputs: 'asp-json'
+    
+    #Publish Website to Azure WebApp
+    - task: AzureRmWebAppDeployment@4
+      displayName: Publish Website to WebApp
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'azure subs'
+        appType: 'webApp'
+        WebAppName: '$(webappname)'
+        packageForLinux: '$(Pipeline.Workspace)/**/Web.zip'
+      
+
+    

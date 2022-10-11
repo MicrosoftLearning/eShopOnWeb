@@ -1,0 +1,74 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  resource-group: 'att-az400-ewebshop-unai'
+  location: 'westeurope'
+  templateFile: '.azure/bicep/acr.bicep'
+  azureserviceconnection: 'azure subs unai'
+  subscriptionId: '6829b3f6-89a8-4e99-9260-9c1602b2ca33'
+
+stages:
+- stage: Build
+  displayName: Create ACR for images
+  jobs:
+  - job: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    #Create ACR to keep docker images
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Deploy ACR Bicep
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: $(azureserviceconnection)
+        subscriptionId: $(subscriptionId)
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: '$(resource-group)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: '$(templateFile)'
+        deploymentMode: 'Incremental'
+        deploymentOutputs: 'acr-json'
+    
+    #Parse ACR login server variable
+    - task: PowerShell@2
+      displayName: Parse Bicep Output
+      inputs:
+        targetType: 'inline'
+        script: |
+          $var=ConvertFrom-Json '$(acr-json)'
+          $value=$var.loginServer.value
+          Write-Host "##vso[task.setvariable variable=acrloginserver;]$value"
+          echo $acrloginserver
+    # docker compose build images
+    - task: DockerCompose@0
+      displayName: Build Docker Compose
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: '$(azureserviceconnection)'
+        azureContainerRegistry: '$(acrloginserver)'
+        dockerComposeFile: '**/docker-compose.yml'
+        projectName: 
+        action: 'Build services'
+        additionalImageTags: '$(Build.BuildNumber)'
+        includeLatestTag: true
+    - task: DockerCompose@0
+      displayName: Push Docker Compose
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: $(azureserviceconnection)
+        azureContainerRegistry: '$(acrloginserver)'
+        dockerComposeFile: '**/docker-compose.yml'
+        projectName: 
+        action: 'Push services'
+        additionalImageTags: '$(Build.BuildNumber)'
+        includeLatestTag: true
