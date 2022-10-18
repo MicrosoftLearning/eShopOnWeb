@@ -10,11 +10,11 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  resource-group: 'att-az400-ewebshop-unai'
+  resource-group: 'att-az400-ewebshop-NAME'
   location: 'westeurope'
   templateFile: '.azure/bicep/acr.bicep'
-  azureserviceconnection: 'azure subs unai'
-  subscriptionId: '6829b3f6-89a8-4e99-9260-9c1602b2ca33'
+  azureserviceconnection: 'azure subs'
+  subscriptionId: 'YOUR-SUBSCRIPTION-ID'
 
 stages:
 - stage: Build
