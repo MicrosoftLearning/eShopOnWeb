@@ -1,18 +1,21 @@
-trigger: none
+#NOT WORKING YET
+#locally docker compose works, deploying to Azure WebApp is succesful but something still fails
+
+# trigger: none
 resources:
 - repo: self
 
 variables:
   tag: '$(Build.BuildId)'
-  resource-group: 'AZ400-EWebShop-Unai'
+  resource-group: 'AZ400-EWebShop-NAME'
   location: 'westeurope'
   templateFile: '.ado/IaC/app-plan.bicep'
-  subscriptionid: '16169bdf-109c-4eb7-9963-3d01e2352774'
+  subscriptionid: 'YOUR-SUBSCRIPTION-ID'
   azureserviceconnection: 'azure subs'
   webappname: 'az400-webapp-compose-NAME'
   composeFile: 'docker-compose-webapp.yml'
-  acr-login-server: 'acrwl3ppxlniyfui.azurecr.io'
-  acr-username: 'acrwl3ppxlniyfui'
+  acr-login-server: 'YOUR-ACR.azurecr.io'
+  acr-username: 'YOUR-ACR'
 
 
 stages:

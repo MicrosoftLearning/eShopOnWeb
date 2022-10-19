@@ -10,7 +10,7 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  resource-group: 'att-az400-ewebshop-NAME'
+  resource-group: 'AZ400-EWebShop-NAME'
   location: 'westeurope'
   templateFile: '.azure/bicep/acr.bicep'
   azureserviceconnection: 'azure subs'

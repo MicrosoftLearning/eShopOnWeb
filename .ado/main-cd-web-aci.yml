@@ -16,7 +16,7 @@ variables:
   webappname: 'az400eshop-NAME'
   acr-login-server: 'YOUR-ACR.azurecr.io'
   acr-username: 'ACR-USERNAME'
-  resource-group: 'att-az400-ewebshop-NAME' 
+  resource-group: 'AZ400-EWebShop-NAME' 
 
 
 stages:
