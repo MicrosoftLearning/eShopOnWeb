@@ -39,7 +39,7 @@ stages:
         location: '$(location)'
         templateLocation: 'Linked artifact'
         csmFile: '$(templateFile)'
-        overrideParameters: '-webAppName $(webappname)'
+        overrideParameters: '-webAppName $(webappname) -location $(location)'
         deploymentMode: 'Incremental'
         deploymentOutputs: 'asp-json'
     
