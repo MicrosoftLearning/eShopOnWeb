@@ -1,8 +1,10 @@
-# Trigger CD wehn CI executed succesfully
+#NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml")
+
+# Trigger CD when CI executed succesfully
 resources:
   pipelines:
-    - pipeline: eshopweb-ci-main
-      source: eshopweb-ci-main # given pipeline name
+    - pipeline: eshoponweb-ci
+      source: eshoponweb-ci # given pipeline name
       trigger: true
 
 

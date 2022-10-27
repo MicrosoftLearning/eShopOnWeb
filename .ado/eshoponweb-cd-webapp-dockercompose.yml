@@ -1,9 +1,12 @@
 #NOT WORKING YET
+
+#NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml")
 #locally docker compose works, deploying to Azure WebApp is succesful but something still fails
 
 # trigger: none
 resources:
 - repo: self
+  trigger: none
 
 variables:
   tag: '$(Build.BuildId)'

@@ -1,12 +1,15 @@
+#NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml")
+
 # Docker
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-- main
+# trigger:
+# - main
 
 resources:
 - repo: self
+  trigger: none
 
 variables:
   tag: '$(Build.BuildId)'
