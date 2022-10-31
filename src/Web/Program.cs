@@ -16,6 +16,10 @@ using Microsoft.eShopWeb.Web;
 using Microsoft.eShopWeb.Web.Configuration;
 using Microsoft.eShopWeb.Web.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Azure.Identity;
+using Microsoft.eShopWeb.Web.Pages;
+using Microsoft.FeatureManagement;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +78,33 @@ builder.Services.Configure<ServiceConfig>(config =>
     config.Path = "/allservices";
 });
 
+// Bind configuration "eShopWeb:Settings" section to the Settings object
+builder.Services.Configure<SettingsViewModel>(builder.Configuration.GetSection("eShopWeb:Settings"));
+// Initialize useAppConfig parameter
+var useAppConfig = false;
+Boolean.TryParse(builder.Configuration["UseAppConfig"], out useAppConfig);
+// Add Azure App Configuration middleware to the container of services.
+builder.Services.AddAzureAppConfiguration();
+builder.Services.AddFeatureManagement();
+// Load configuration from Azure App Configuration
+if (useAppConfig)
+{
+    builder.Configuration.AddAzureAppConfiguration(options =>
+    {
+        options.Connect(new Uri(builder.Configuration["AppConfigEndpoint"]), new DefaultAzureCredential())
+        .ConfigureRefresh(refresh =>
+        {
+            // Default cache expiration is 30 seconds
+            refresh.Register("eShopWeb:Settings:NoResultsMessage").SetCacheExpiration(TimeSpan.FromSeconds(10));
+        })
+        .UseFeatureFlags(featureFlagOptions =>
+        {
+            // Default cache expiration is 30 seconds
+            featureFlagOptions.CacheExpirationInterval = TimeSpan.FromSeconds(10);
+        });
+    });
+}
+
 // blazor configuration
 var configSection = builder.Configuration.GetRequiredSection(BaseUrlConfiguration.CONFIG_NAME);
 builder.Services.Configure<BaseUrlConfiguration>(configSection);
@@ -95,6 +126,12 @@ builder.Services.AddBlazorServices();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
+
+if (useAppConfig)
+{
+    // Use Azure App Configuration middleware for dynamic configuration refresh.
+    app.UseAzureAppConfiguration();
+}
 
 app.Logger.LogInformation("App created...");
 
