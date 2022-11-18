@@ -5,8 +5,9 @@
 
 # trigger: none
 resources:
-- repo: self
-  trigger: none
+  repositories:
+    - repository: self
+      trigger: none
 
 variables:
   tag: '$(Build.BuildId)'
