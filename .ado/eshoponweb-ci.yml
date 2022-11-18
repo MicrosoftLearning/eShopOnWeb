@@ -3,8 +3,9 @@
 # - main
 
 resources:
-- repo: self
-  trigger: none
+  repositories:
+    - repository: self
+      trigger: none
 
 stages:
 - stage: Build
