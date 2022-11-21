@@ -27,7 +27,7 @@ stages:
       vmImage: windows-latest
     steps:
     #download artifacts
-    - download: eshopweb-ci-main
+    - download: eshoponweb-ci
   
     # Deploy App Service Plan + App Service using Bicep
     - task: AzureResourceManagerTemplateDeployment@3
