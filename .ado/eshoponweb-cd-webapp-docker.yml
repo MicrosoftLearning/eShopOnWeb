@@ -1,0 +1,44 @@
+#NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml")
+
+resources:
+  repositories:
+    - repository: self
+      trigger: none
+
+variables:
+  azureServiceConnection: 'azure-connection'
+  resourceGroup: 'rg-az400-container-NAME'
+  location: 'westeurope'
+  subscriptionId: 'SUBSCRIPTION-ID'
+
+stages:
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Deploy App Service using Bicep
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: $(azureServiceConnection)
+        subscriptionId: $(subscriptionId)
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: '$(resourceGroup)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: '.azure/bicep/webapp-docker.bicep'
+        deploymentMode: 'Incremental'
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Add Role Assignment using Bicep
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: $(azureServiceConnection)
+        subscriptionId: $(subscriptionId)
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: '$(resourceGroup)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: '.azure/bicep/webapp-to-acr-roleassignment.bicep'
+        deploymentMode: 'Incremental'
