@@ -7,7 +7,7 @@ resources:
 
 variables:
   azureServiceConnection: 'azure-connection'
-  subscriptionId: 'SUBSCRIPTION-ID'
+  subscriptionId: 'YOUR-SUBSCRIPTION-ID'
   resourceGroup: 'rg-az400-container-NAME'
   location: 'westeurope'
 
@@ -40,7 +40,7 @@ stages:
           $value=$var.acrLoginServer.value
           Write-Host "##vso[task.setvariable variable=acrLoginServer;]$value"
     - task: Docker@0
-      displayName: 'Build an image'
+      displayName: 'Build the docker image'
       inputs:
         azureSubscription: $(azureServiceConnection)
         azureContainerRegistry: $(acrLoginServer)
@@ -50,7 +50,7 @@ stages:
         includeLatestTag: true
         imageName: eshoponweb/web:$(Build.BuildId)
     - task: Docker@0
-      displayName: 'Push an image'
+      displayName: 'Push the docker images'
       inputs:
         azureSubscription: $(azureServiceConnection)
         azureContainerRegistry: $(acrLoginServer)
