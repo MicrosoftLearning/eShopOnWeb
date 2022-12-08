@@ -1,24 +1,19 @@
-@minLength(5)
-@maxLength(50)
-@description('Provide a globally unique name of your Azure Container Registry')
-param acrName string = 'acr${uniqueString(resourceGroup().id)}'
+@description('Generate a Suffix based on the Resource Group ID')
+param suffix string = uniqueString(resourceGroup().id)
 
-@description('Provide a location for the registry.')
+@description('Use the Resource Group Location')
 param location string = resourceGroup().location
 
-@description('Provide a tier of your Azure Container Registry.')
-param acrSku string = 'Basic'
-
-resource acrResource 'Microsoft.ContainerRegistry/registries@2021-06-01-preview' = {
-  name: acrName
+resource acr 'Microsoft.ContainerRegistry/registries@2021-09-01' = {
+  name: 'cr${suffix}'
   location: location
   sku: {
-    name: acrSku
+    name: 'Basic'
   }
   properties: {
-    adminUserEnabled: true
+    adminUserEnabled: false
   }
 }
 
 @description('Output the login server property for later use')
-output loginServer string = acrResource.properties.loginServer
+output acrLoginServer string = acr.properties.loginServer
