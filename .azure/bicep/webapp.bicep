@@ -13,7 +13,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
   sku: {
     name: sku
   }
-  kind: 'app'
+  kind: 'app,linux'
 }
 resource appService 'Microsoft.Web/sites@2020-06-01' = {
   name: webAppName
