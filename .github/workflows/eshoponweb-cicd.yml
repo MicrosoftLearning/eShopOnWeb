@@ -5,11 +5,11 @@ name: eShopOnWeb Build and Test
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
-  RESOURCE-GROUP: rg-az400-eshopeonweb-NAME
-  LOCATION: westeurope
+  RESOURCE-GROUP: rg-az400-eshopeonweb-vijaya
+  LOCATION: eastus
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
-  SUBSCRIPTION-ID: YOUR-SUBS-ID
-  WEBAPP-NAME: az400-webapp-NAME
+  SUBSCRIPTION-ID: a1652ed6-6cf6-4d10-a680-498caadf3968
+  WEBAPP-NAME: az400-webapp-vijaya
 
 
 jobs:
