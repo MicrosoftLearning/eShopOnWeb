@@ -50,7 +50,7 @@ stages:
         targetType: 'inline'
         script: |
           $var=ConvertFrom-Json '$(acr-json)'
-          $value=$var.loginServer.value
+          $value=$var.acrloginServer.value
           Write-Host "##vso[task.setvariable variable=acrloginserver;]$value"
           echo $acrloginserver
     # docker compose build images
