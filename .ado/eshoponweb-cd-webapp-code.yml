@@ -50,7 +50,7 @@ stages:
       displayName: Publish Website to WebApp
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'azure subs'
+        azureSubscription: '$(azureserviceconnection)'
         appType: 'webApp'
         WebAppName: '$(webappname)'
         packageForLinux: '$(Pipeline.Workspace)/**/Web.zip'
