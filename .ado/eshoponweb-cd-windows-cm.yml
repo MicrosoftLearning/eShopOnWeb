@@ -1,0 +1,24 @@
+variables:
+  resource-group: 'AZ400-EWebShop-NAME'
+  location: 'westeurope'
+  templateFile: '.azure/bicep/simple-windows-vm.bicep'
+  azureserviceconnection: 'azure subs'
+
+stages:
+- stage: Deploy
+  displayName: Deploy the Bicep template
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - checkout: self
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(azureserviceconnection)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az group create -l $(location) -n $(resource-group)
+          
+          az deployment group create -f $(templateFile) -g $(resource-group)
