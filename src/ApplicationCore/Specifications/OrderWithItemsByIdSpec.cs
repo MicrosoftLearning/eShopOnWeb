@@ -3,7 +3,7 @@ using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 
 namespace Microsoft.eShopWeb.ApplicationCore.Specifications;
 
-public class OrderWithItemsByIdSpec : Specification<Order>, ISingleResultSpecification
+public class OrderWithItemsByIdSpec : Specification<Order>, ISingleResultSpecification<Order>
 {
     public OrderWithItemsByIdSpec(int orderId)
     {
