@@ -30,7 +30,7 @@ public class OrderService : IOrderService
     public async Task CreateOrderAsync(int basketId, Address shippingAddress)
     {
         var basketSpec = new BasketWithItemsSpecification(basketId);
-        var basket = await _basketRepository.GetBySpecAsync(basketSpec);
+        var basket = await _basketRepository.FirstOrDefaultAsync(basketSpec);
 
         Guard.Against.NullBasket(basketId, basket);
         Guard.Against.EmptyBasketOnCheckout(basket.Items);
