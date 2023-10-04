@@ -1,0 +1,26 @@
+on:
+  workflow_dispatch:
+
+name: eShop-Slot-Prod
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checkout code
+    - uses: actions/checkout@main
+
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy Bicep file
+    - name: deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./.azure/bicep/prod.bicep
+        parameters: 'website=eshop-demo-alex-prod plan=eshop-plan-prod location=eastus'
+        failOnStdErr: false
