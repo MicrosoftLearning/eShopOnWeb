@@ -19,6 +19,6 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./template.bicep
+        template: ./.azure/bicep/template.bicep
         parameters: 'website-name=eshop-demo-alex-rod plan=eshop-plan-prod'
         failOnStdErr: false
