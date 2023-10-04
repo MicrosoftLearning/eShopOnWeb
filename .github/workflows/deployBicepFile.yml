@@ -1,5 +1,5 @@
 on: [push]
-name: Azure ARM
+name: PROD eShop Bicep Deploy
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
