@@ -1,4 +1,3 @@
-on: [push]
 name: PROD eShop Bicep Deploy
 jobs:
   build-and-deploy:
