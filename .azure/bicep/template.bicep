@@ -1,4 +1,4 @@
-param website-name string = 'eshop-demo-alex'
+param website string = 'eshop-demo-alex'
 param plan string = 'eshop-plan'
 
 resource serverfarms_eshop_plan_name_resource 'Microsoft.Web/serverfarms@2022-09-01' = {
@@ -26,20 +26,20 @@ resource serverfarms_eshop_plan_name_resource 'Microsoft.Web/serverfarms@2022-09
   }
 }
 
-resource website-name_resource 'Microsoft.Web/sites@2022-09-01' = {
-  name: website-name
+resource website_resource 'Microsoft.Web/sites@2022-09-01' = {
+  name: website
   location: 'East US'
   kind: 'app'
   properties: {
     enabled: true
     hostNameSslStates: [
       {
-        name: '${website-name}.azurewebsites.net'
+        name: '${website}.azurewebsites.net'
         sslState: 'Disabled'
         hostType: 'Standard'
       }
       {
-        name: '${website-name}.scm.azurewebsites.net'
+        name: '${website}.scm.azurewebsites.net'
         sslState: 'Disabled'
         hostType: 'Repository'
       }
@@ -75,8 +75,8 @@ resource website-name_resource 'Microsoft.Web/sites@2022-09-01' = {
   }
 }
 
-resource website-name_ftp 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
-  parent: website-name_resource
+resource website_ftp 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+  parent: website_resource
   name: 'ftp'
   location: 'East US'
   properties: {
@@ -84,8 +84,8 @@ resource website-name_ftp 'Microsoft.Web/sites/basicPublishingCredentialsPolicie
   }
 }
 
-resource website-name_scm 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
-  parent: website-name_resource
+resource website_scm 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+  parent: website_resource
   name: 'scm'
   location: 'East US'
   properties: {
@@ -93,8 +93,8 @@ resource website-name_scm 'Microsoft.Web/sites/basicPublishingCredentialsPolicie
   }
 }
 
-resource website-name_web 'Microsoft.Web/sites/config@2022-09-01' = {
-  parent: website-name_resource
+resource website_web 'Microsoft.Web/sites/config@2022-09-01' = {
+  parent: website_resource
   name: 'web'
   location: 'East US'
   properties: {
@@ -170,9 +170,9 @@ resource website-name_web 'Microsoft.Web/sites/config@2022-09-01' = {
   }
 }
 
-resource website-name_website-name_azurewebsites_net 'Microsoft.Web/sites/hostNameBindings@2022-09-01' = {
-  parent: website-name_resource
-  name: '${website-name}.azurewebsites.net'
+resource website_website_azurewebsites_net 'Microsoft.Web/sites/hostNameBindings@2022-09-01' = {
+  parent: website_resource
+  name: '${website}.azurewebsites.net'
   location: 'East US'
   properties: {
     siteName: 'eshop-demo-alex'
@@ -180,8 +180,8 @@ resource website-name_website-name_azurewebsites_net 'Microsoft.Web/sites/hostNa
   }
 }
 
-resource website-name_stage 'Microsoft.Web/sites/slots@2022-09-01' = {
-  parent: website-name_resource
+resource website_stage 'Microsoft.Web/sites/slots@2022-09-01' = {
+  parent: website_resource
   name: 'stage'
   location: 'East US'
   kind: 'app'
@@ -230,8 +230,8 @@ resource website-name_stage 'Microsoft.Web/sites/slots@2022-09-01' = {
   }
 }
 
-resource website-name_stage_ftp 'Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies@2022-09-01' = {
-  parent: website-name_stage
+resource website_stage_ftp 'Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies@2022-09-01' = {
+  parent: website_stage
   name: 'ftp'
   location: 'East US'
   properties: {
@@ -239,12 +239,12 @@ resource website-name_stage_ftp 'Microsoft.Web/sites/slots/basicPublishingCreden
   }
   dependsOn: [
 
-    website-name_resource
+    website_resource
   ]
 }
 
-resource website-name_stage_scm 'Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies@2022-09-01' = {
-  parent: website-name_stage
+resource website_stage_scm 'Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies@2022-09-01' = {
+  parent: website_stage
   name: 'scm'
   location: 'East US'
   properties: {
@@ -252,12 +252,12 @@ resource website-name_stage_scm 'Microsoft.Web/sites/slots/basicPublishingCreden
   }
   dependsOn: [
 
-    website-name_resource
+    website_resource
   ]
 }
 
-resource website-name_stage_web 'Microsoft.Web/sites/slots/config@2022-09-01' = {
-  parent: website-name_stage
+resource website_stage_web 'Microsoft.Web/sites/slots/config@2022-09-01' = {
+  parent: website_stage
   name: 'web'
   location: 'East US'
   properties: {
@@ -334,13 +334,13 @@ resource website-name_stage_web 'Microsoft.Web/sites/slots/config@2022-09-01' = 
   }
   dependsOn: [
 
-    website-name_resource
+    website_resource
   ]
 }
 
-resource website-name_stage_website-name_stage_azurewebsites_net 'Microsoft.Web/sites/slots/hostNameBindings@2022-09-01' = {
-  parent: website-name_stage
-  name: '${website-name}-stage.azurewebsites.net'
+resource website_stage_website_stage_azurewebsites_net 'Microsoft.Web/sites/slots/hostNameBindings@2022-09-01' = {
+  parent: website_stage
+  name: '${website}-stage.azurewebsites.net'
   location: 'East US'
   properties: {
     siteName: 'eshop-demo-alex(stage)'
@@ -348,6 +348,6 @@ resource website-name_stage_website-name_stage_azurewebsites_net 'Microsoft.Web/
   }
   dependsOn: [
 
-    website-name_resource
+    website_resource
   ]
 }
