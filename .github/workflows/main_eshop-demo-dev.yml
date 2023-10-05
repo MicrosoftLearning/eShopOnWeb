@@ -3,10 +3,7 @@
 
 name: Build and deploy ASP.Net Core app to Azure Web App - eshop-demo-dev
 
-on:
-  push:
-    branches:
-      - main
+on:  
   workflow_dispatch:
 
 jobs:
