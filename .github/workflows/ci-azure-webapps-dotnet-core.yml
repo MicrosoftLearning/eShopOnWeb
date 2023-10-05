@@ -55,7 +55,6 @@ jobs:
       - name: Print value
         run: echo ${{ env.environment }}
 
-    steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
