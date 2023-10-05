@@ -2,8 +2,6 @@ name: CI/CD Build and deploy
 
 on:
   push:
-    branches:
-    - main
     workflow_dispatch:
       inputs:
         environment:
