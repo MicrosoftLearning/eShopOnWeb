@@ -13,13 +13,12 @@ jobs:
   prod:
     if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'PROD' }}
     env:
-      environment: PROD
+      environment: Production
 
     runs-on: ubuntu-latest
     steps:
       - name: Print value
         run: echo ${{ env.environment }}
-
 
       - name: checkout the repository
         uses: actions/checkout@v3
@@ -73,7 +72,7 @@ jobs:
   dev:
     if: ${{ github.event_name == 'push' && github.ref_name == 'development' || github.event.inputs.environment == 'DEV' }}
     env:
-      environment: DEV
+      environment: Development
           
     runs-on: ubuntu-latest
     steps:
