@@ -57,9 +57,16 @@ jobs:
           name: .net-app
           path: .net-app
 
+        # Log into Azure
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure Web App1
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          resourceGroupName: ${{ secrets.AZURE_RG }}
           app-name: eshop-demo-dev
           package: .net-app
