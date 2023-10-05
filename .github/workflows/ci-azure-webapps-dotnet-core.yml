@@ -75,7 +75,8 @@ jobs:
     env:
       environment: DEV
           
-      steps:
+    runs-on: ubuntu-latest
+    steps:
         - name: Print value
           run: echo ${{ env.environment }}
   
