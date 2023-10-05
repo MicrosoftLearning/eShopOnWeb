@@ -66,7 +66,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: ${{ secrets.AZURE_RG }}
+          resource-group-name: ${{ secrets.AZURE_RG }}
           app-name: eshop-demo-dev
           package: .net-app
