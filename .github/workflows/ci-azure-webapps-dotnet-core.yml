@@ -1,55 +1,56 @@
-name: CI/CD **DEV** Build and deploy
-
-env:
-  AZURE_WEBAPP_NAME: eshop-demo-dev   # set this to the name of your Azure Web App
-  AZURE_RG: AZ-400 
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '7.0'                 # set this to the .NET Core version to use
+name: CI/CD Build and deploy
 
 on:
-  [push, workflow_dispatch]
+  push:
+    branches:
+    - main
+    workflow_dispatch:
+      inputs:
+        environment:
+          type: string
+          default: DEV
+          required: true
 
-jobs:
+
+jobs:  
   build:
-    runs-on: ubuntu-latest
+    - uses: actions/checkout@v3
 
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Set up dependency caching for faster builds
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+
+    - name: Build with dotnet
+      run: dotnet build ./eShopOnWeb.sln --configuration Release
+
+    - name: dotnet publish
+      run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: .net-app
+        path: ${{env.DOTNET_ROOT}}/myapp
+
+  prod:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'PROD' }}
+    env:
+      environment: PROD
+
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Set up dependency caching for faster builds
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-
-      - name: Build with dotnet
-        run: dotnet build ./eShopOnWeb.sln --configuration Release
-
-      - name: dotnet publish
-        run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
-
-  deploy:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Development'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      - name: Print value
+        run: echo ${{ env.environment }}
 
     steps:
       - name: Download artifact from build job
@@ -57,12 +58,12 @@ jobs:
         with:
           name: .net-app
           path: .net-app
-
-        # Log into Azure
+    
+            # Log into Azure
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
+    
       - name: Deploy to Azure Web App1
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -70,3 +71,36 @@ jobs:
           resource-group-name: ${{ env.AZURE_RG }}
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: .net-app
+
+        
+  dev:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'development' || github.event.inputs.environment == 'DEV' }}
+    env:
+      environment: DEV
+          
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print value
+        run: echo ${{ env.environment }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+          path: .net-app
+    
+            # Log into Azure
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+      - name: Deploy to Azure Web App1
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          resource-group-name: ${{ env.AZURE_RG }}
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: .net-app
+
+j
