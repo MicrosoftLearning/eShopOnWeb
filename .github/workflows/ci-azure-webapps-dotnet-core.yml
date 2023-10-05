@@ -1,15 +1,12 @@
 name: CI/CD DEV Build and deploy
 
 env:
-  AZURE_WEBAPP_NAME: eshop-demo-alex-prod   # set this to the name of your Azure Web App
+  AZURE_WEBAPP_NAME: eshop-demo-dev   # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '7.0'                 # set this to the .NET Core version to use
 
 on:
   workflow_dispatch:
-
-permissions:
-  contents: read
 
 jobs:
   build:
@@ -64,6 +61,5 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
+          app-name: eshop-demo-dev
           package: .net-app
