@@ -10,38 +10,6 @@ on:
 
 
 jobs:  
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    #checkout the repository
-    - uses: actions/checkout@v3
-
-    - name: Set up .NET Core
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-
-    - name: Set up dependency caching for faster builds
-      uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
-
-    - name: Build with dotnet
-      run: dotnet build ./eShopOnWeb.sln --configuration Release
-
-    - name: dotnet publish
-      run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v3
-      with:
-        name: .net-app
-        path: ${{env.DOTNET_ROOT}}/myapp
-
   prod:
     if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'PROD' }}
     env:
@@ -51,6 +19,36 @@ jobs:
     steps:
       - name: Print value
         run: echo ${{ env.environment }}
+
+
+      - name: checkout the repository
+        uses: actions/checkout@v3
+    
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+      - name: Set up dependency caching for faster builds
+        uses: actions/cache@v3
+        with:
+            path: ~/.nuget/packages
+            key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+            restore-keys: |
+              ${{ runner.os }}-nuget-
+    
+    
+      - name: Build with dotnet
+        run: dotnet build ./eShopOnWeb.sln --configuration Release
+    
+      - name: dotnet publish
+        run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+    
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+            name: .net-app
+            path: ${{env.DOTNET_ROOT}}/myapp
 
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -77,26 +75,55 @@ jobs:
     env:
       environment: DEV
           
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print value
-        run: echo ${{ env.environment }}
+      steps:
+        - name: Print value
+          run: echo ${{ env.environment }}
+  
+  
+        - name: checkout the repository
+          uses: actions/checkout@v3
+      
+        - name: Set up .NET Core
+          uses: actions/setup-dotnet@v2
+          with:
+              dotnet-version: ${{ env.DOTNET_VERSION }}
+      
+        - name: Set up dependency caching for faster builds
+          uses: actions/cache@v3
+          with:
+              path: ~/.nuget/packages
+              key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+              restore-keys: |
+                ${{ runner.os }}-nuget-
+      
+      
+        - name: Build with dotnet
+          run: dotnet build ./eShopOnWeb.sln --configuration Release
+      
+        - name: dotnet publish
+          run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      
+        - name: Upload artifact for deployment job
+          uses: actions/upload-artifact@v3
+          with:
+              name: .net-app
+              path: ${{env.DOTNET_ROOT}}/myapp
 
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: .net-app
-          path: .net-app
-    
-      - name: Log into Azure
-        uses: azure/login@v1
-        with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-      - name: Deploy to Azure Web App1
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          resource-group-name: ${{ env.AZURE_RG }}
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: .net-app
+        - name: Download artifact from build job
+          uses: actions/download-artifact@v3
+          with:
+            name: .net-app
+            path: .net-app
+      
+        - name: Log into Azure
+          uses: azure/login@v1
+          with:
+              creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+        - name: Deploy to Azure Web App1
+          id: deploy-to-webapp
+          uses: azure/webapps-deploy@v2
+          with:
+            resource-group-name: ${{ env.AZURE_RG }}
+            app-name: ${{ env.AZURE_WEBAPP_NAME }}
+            package: .net-app
