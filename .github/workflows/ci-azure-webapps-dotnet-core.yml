@@ -61,8 +61,8 @@ jobs:
           name: .net-app
           path: .net-app
     
-            # Log into Azure
-      - uses: azure/login@v1
+      - name: Log into Azure
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
     
@@ -91,10 +91,10 @@ jobs:
           name: .net-app
           path: .net-app
     
-       # Log into Azure
-      - uses: azure/login@v1
+      - name: Log into Azure
+        uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
     
       - name: Deploy to Azure Web App1
         id: deploy-to-webapp
