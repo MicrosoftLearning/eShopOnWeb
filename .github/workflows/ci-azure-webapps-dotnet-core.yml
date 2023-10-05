@@ -5,7 +5,7 @@ on:
       inputs:
         environment:
           type: string
-          default: DEV
+          default: Development
           required: true
 
 
@@ -70,7 +70,7 @@ jobs:
 
         
   dev:
-    if: ${{ github.event_name == 'push' && github.ref_name == 'development' || github.event.inputs.environment == 'DEV' }}
+    if: ${{ github.event_name == 'push' && github.ref_name == 'development' || github.event.inputs.environment == 'Development' }}
     env:
       environment: Development
           
