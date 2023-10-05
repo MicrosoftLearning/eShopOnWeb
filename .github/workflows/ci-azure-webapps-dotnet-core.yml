@@ -102,5 +102,3 @@ jobs:
           resource-group-name: ${{ env.AZURE_RG }}
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: .net-app
-
-j
