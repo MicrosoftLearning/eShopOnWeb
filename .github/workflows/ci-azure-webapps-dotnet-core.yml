@@ -77,8 +77,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: Print value
-          run: echo ${{ env.environment }}
-          run: echo ${{ env.DOTNET_VERSION }}
+          run: |
+           echo ${{ env.environment }} 
+           echo ${{ env.DOTNET_VERSION }}
   
         - name: checkout the repository
           uses: actions/checkout@v3
