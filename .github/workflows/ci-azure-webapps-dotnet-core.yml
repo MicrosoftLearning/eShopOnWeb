@@ -18,7 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print value
-        run: echo ${{ env.environment }}
+        run: |
+           echo ${{ vars.DOTNET_VERSION }}
+           echo ${{ vars.AZURE_RG }}
+           echo ${{ vars.AZURE_WEBAPP_NAME }}
 
       - name: checkout the repository
         uses: actions/checkout@v3
@@ -79,6 +82,7 @@ jobs:
           run: |
            echo ${{ vars.DOTNET_VERSION }}
            echo ${{ vars.AZURE_RG }}
+           echo ${{ vars.AZURE_WEBAPP_NAME }}
   
         - name: checkout the repository
           uses: actions/checkout@v3
