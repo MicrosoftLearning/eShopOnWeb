@@ -79,6 +79,7 @@ jobs:
           run: |
            echo ${{ env.environment }} 
            echo ${{ vars.DOTNET_VERSION }}
+           echo ${{ vars.ENVIRONMENT_STAGE }}
   
         - name: checkout the repository
           uses: actions/checkout@v3
