@@ -14,7 +14,7 @@ env:
 jobs:  
   prod:
     if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'PROD' }}
-    environment: ${{ vars.ENVIRONMENT_STAGE }}     
+    environment: Production    
     runs-on: ubuntu-latest
     steps:
       - name: Print value
@@ -71,7 +71,7 @@ jobs:
         
   dev:
     if: ${{ github.event_name == 'push' && github.ref_name == 'development' || github.event.inputs.environment == 'Development' }}
-    environment: ${{ vars.ENVIRONMENT_STAGE }}   
+    environment: Development  
           
     runs-on: ubuntu-latest
     steps:
