@@ -8,13 +8,13 @@ on:
           default: Development
           required: true
 
-
+env:
+  env_var: ${{ vars.ENV_CONTEXT_VAR }}
+  
 jobs:  
   prod:
     if: ${{ github.event_name == 'push' && github.ref_name == 'master' || github.event.inputs.environment == 'PROD' }}
-    env:
-      environment: Production
-
+    environment: ${{ vars.ENVIRONMENT_STAGE }}     
     runs-on: ubuntu-latest
     steps:
       - name: Print value
@@ -71,8 +71,7 @@ jobs:
         
   dev:
     if: ${{ github.event_name == 'push' && github.ref_name == 'development' || github.event.inputs.environment == 'Development' }}
-    env:
-      environment: Development
+    environment: ${{ vars.ENVIRONMENT_STAGE }}   
           
     runs-on: ubuntu-latest
     steps:
