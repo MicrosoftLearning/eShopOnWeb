@@ -1,5 +1,9 @@
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - main
   
 name: CI & Test
 
@@ -26,8 +30,7 @@ jobs:
           uses: actions/setup-dotnet@v1
           
           with:
-            dotnet-version: '6.0.x'
-            include-prerelease: true
+            dotnet-version: ${{ vars.DOTNET_VERSION }}
             
         #Build/Test/Publish the .net project
         - name: Build with dotnet
@@ -44,41 +47,5 @@ jobs:
           uses: actions/upload-artifact@v3
           with:
             name: .net-app
-            path: ${{env.DOTNET_ROOT}}/myapp
-        
-        # upload the bicep template as artifacts for next job
-        - name: Upload artifact for deployment job
-          uses: actions/upload-artifact@v3
-          with:
-              name: bicep-template
-              path: ${{ env.TEMPLATE-FILE }}
-        
-  # Publish webapp 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: buildandtest
-    environment: Development 
-      
-    steps:
-    
-      #Download the publish files created in previous job
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: .net-app
-          path: .net-app
-        
-     #Login in your azure subscription using a service principal (credentials stored as GitHub Secret in repo)
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-           
-    
-      # Publish website to Azure App Service (WebApp)
-      - name: Publish Website to WebApp
-        uses: Azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.WEBAPP-NAME  }}
-          package: .net-app
-   
+            path: ${{env.DOTNET_ROOT}}/myapp        
+
