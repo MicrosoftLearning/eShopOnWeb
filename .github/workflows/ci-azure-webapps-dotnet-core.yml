@@ -77,9 +77,8 @@ jobs:
     steps:
         - name: Print value
           run: |
-           echo ${{ env.environment }} 
            echo ${{ vars.DOTNET_VERSION }}
-           echo ${{ vars.ENVIRONMENT_STAGE }}
+           echo ${{ vars.AZURE_RG }}
   
         - name: checkout the repository
           uses: actions/checkout@v3
