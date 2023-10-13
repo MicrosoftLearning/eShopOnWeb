@@ -67,7 +67,15 @@ jobs:
           slot-name: "${{ vars.AZURE_WEBAPP_SLOT_NAME }}" 
           package: .net-app
 
+      - name: Swap staging slot into production
+        id: slot_swap
+        run: |
+          az webapp deployment slot swap -g ${{ env.AZURE_RG }} -n ${{ env.AZURE_WEBAPP_NAME }} -s stage
+          url=$(az webapp show -g ${{ env.AZURE_RG }} -n ${{ env.AZURE_WEBAPP_NAME }} --query "defaultHostName" -o tsv)
+          echo "::set-output name=url::http://$url"         
 
+      - name: az cli logout
+        run: az logout
 
 
         
