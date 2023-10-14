@@ -5,7 +5,7 @@ on:
       - dev
       - main
   
-name: CI & Test
+name: CI DEV & Test
 
 env:
   env_var: ${{ vars.ENV_CONTEXT_VAR }}
