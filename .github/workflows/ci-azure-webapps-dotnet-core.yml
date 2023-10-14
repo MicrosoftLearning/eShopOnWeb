@@ -1,4 +1,4 @@
-name: CI/CD Build and deploy
+name: DEV/PROD Build and deploy
 
 
 on:
