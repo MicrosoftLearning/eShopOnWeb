@@ -85,7 +85,8 @@ public class TransferBasket
     public async Task CreatesNewUserBasketIfNotExists()
     {
         var anonymousBasket = new Basket(_existentAnonymousBasketBuyerId);
-        var userBasket = null as Basket;
+        anonymousBasket.AddItem(2, 99, 3);
+        var userBasket = null as Basket;      
         _mockBasketRepo.SetupSequence(x => x.GetBySpecAsync(It.IsAny<BasketWithItemsSpecification>(), default))
             .ReturnsAsync(anonymousBasket)
             .ReturnsAsync(userBasket);

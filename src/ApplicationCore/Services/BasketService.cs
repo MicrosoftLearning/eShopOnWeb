@@ -22,7 +22,9 @@ public class BasketService : IBasketService
     public async Task<Basket> AddItemToBasket(string username, int catalogItemId, decimal price, int quantity = 1)
     {
         var basketSpec = new BasketWithItemsSpecification(username);
-        var basket = await _basketRepository.FirstOrDefaultAsync(basketSpec);
+
+        //var basket = await _basketRepository.FirstOrDefaultAsync(basketSpec);
+        Basket basket = await _basketRepository.GetBySpecAsync(basketSpec);
 
         if (basket == null)
         {
@@ -46,7 +48,8 @@ public class BasketService : IBasketService
     {
         Guard.Against.Null(quantities, nameof(quantities));
         var basketSpec = new BasketWithItemsSpecification(basketId);
-        var basket = await _basketRepository.FirstOrDefaultAsync(basketSpec);
+        //var basket = await _basketRepository.FirstOrDefaultAsync(basketSpec);
+        var basket = await _basketRepository.GetBySpecAsync(basketSpec);
         Guard.Against.NullBasket(basketId, basket);
 
         foreach (var item in basket.Items)
@@ -67,10 +70,10 @@ public class BasketService : IBasketService
         Guard.Against.NullOrEmpty(anonymousId, nameof(anonymousId));
         Guard.Against.NullOrEmpty(userName, nameof(userName));
         var anonymousBasketSpec = new BasketWithItemsSpecification(anonymousId);
-        var anonymousBasket = await _basketRepository.FirstOrDefaultAsync(anonymousBasketSpec);
+        var anonymousBasket = await _basketRepository.GetBySpecAsync(anonymousBasketSpec);
         if (anonymousBasket == null) return;
         var userBasketSpec = new BasketWithItemsSpecification(userName);
-        var userBasket = await _basketRepository.FirstOrDefaultAsync(userBasketSpec);
+        var userBasket = await _basketRepository.GetBySpecAsync(userBasketSpec);
         if (userBasket == null)
         {
             userBasket = new Basket(userName);
