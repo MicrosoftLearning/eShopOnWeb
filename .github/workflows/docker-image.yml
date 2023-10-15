@@ -30,7 +30,9 @@ jobs:
             username: eshopacr
             password: o8uXSgWlUdRwAeGP2xGSfGy+09vetsONo3Mq13fksa+ACRBXyFsY
     - run: |
-            docker push eshopacr.azurecr.io/eshop:latest
+            docker push eshopacr.azurecr.io/eshopwebmvc
+            docker push eshopacr.azurecr.io/eshoppublicapi
+            docker push eshopacr.azurecr.io/eshopsql
 
       
       
