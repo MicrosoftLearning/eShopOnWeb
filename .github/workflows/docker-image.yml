@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+      inputs:
+        version:
+          type: string
+          default: $(date +%s)
+          required: true
+  push:
+    branches:
+      - dev
+      - main
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker compoase build . --tag my-image-name:$(github.event.inputs.environment)
