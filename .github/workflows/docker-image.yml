@@ -31,9 +31,5 @@ jobs:
             password: o8uXSgWlUdRwAeGP2xGSfGy+09vetsONo3Mq13fksa+ACRBXyFsY
     - run: |
             docker push eshopacr.azurecr.io/eshopwebmvc
-            docker push eshopacr.azurecr.io/eshoppublicapi
-            docker push eshopacr.azurecr.io/eshopsql
-
-      
-      
-      # --tag my-image-name:$(github.event.inputs.environment)
+            docker push eshopacr.azurecr.io/eshoppublicapi      
+  
