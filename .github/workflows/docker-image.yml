@@ -21,6 +21,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker compoase build 
+      run: docker compose build 
       
       # --tag my-image-name:$(github.event.inputs.environment)
