@@ -2,15 +2,14 @@ version: '3.4'
 
 services:
   eshopwebmvc:
-    image: eshopwebmvc
-    container_name: eshopwebmvc
+    image:  eshopacr.azurecr.io/eshopwebmvc:latest
     build:
       context: .
       dockerfile: src/Web/Dockerfile
     depends_on:
       - "sqlserver"
   eshoppublicapi:
-    image: eshoppublicapi
+    image:  eshopacr.azurecr.io/eshoppublicapi:latest
     container_name: eshoppublicapi
     build:
       context: .
@@ -19,7 +18,7 @@ services:
       - "sqlserver"
   sqlserver:
     image: mcr.microsoft.com/azure-sql-edge:latest
-    container_name: eshopsql
+    container_name:  eshopacr.azurecr.io/eshopsql:latest
     ports:
       - "1433:1433"
     environment:
