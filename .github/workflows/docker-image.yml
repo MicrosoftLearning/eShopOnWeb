@@ -7,10 +7,14 @@ on:
       - dev
       - main
 
+env:
+  env_var: ${{ vars.ENV_CONTEXT_VAR }}
+
+  
 jobs:
 
   build:
-
+    environment: Development   
     runs-on: ubuntu-latest
 
     steps:
