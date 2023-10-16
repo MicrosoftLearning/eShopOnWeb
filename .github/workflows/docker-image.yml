@@ -27,7 +27,7 @@ jobs:
       with:
             login-server:  ${{ vars.ACR_SERVER }}
             username: ${{ vars.ACR_USERNAME }}
-            password: ${{ secrets.AZURE_CREDENTIALS }}
+            password: ${{ secrets.ACR_PASS }}
     - run: |
             docker push eshopacr.azurecr.io/eshopwebmvc
             docker push eshopacr.azurecr.io/eshoppublicapi      
