@@ -2,11 +2,6 @@ name: Docker Image CI
 
 on:
   workflow_dispatch:
-      inputs:
-        version:
-          type: string
-          default: $(date +%s)
-          required: true
   push:
     branches:
       - dev
@@ -26,9 +21,9 @@ jobs:
     - name: Deploy to ARC
       uses: azure/docker-login@v1
       with:
-            login-server: eshopacr.azurecr.io
-            username: eshopacr
-            password: o8uXSgWlUdRwAeGP2xGSfGy+09vetsONo3Mq13fksa+ACRBXyFsY
+            login-server:  ${{ vars.ACR_SERVER }}
+            username: ${{ vars.ACR_USERNAME }}
+            password: ${{ secrets.AZURE_CREDENTIALS }}
     - run: |
             docker push eshopacr.azurecr.io/eshopwebmvc
             docker push eshopacr.azurecr.io/eshoppublicapi      
