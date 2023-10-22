@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: KeyVault and Github
 
 on:
   workflow_dispatch:
