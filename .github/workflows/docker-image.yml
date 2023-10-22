@@ -30,7 +30,7 @@ jobs:
             password: ${{ secrets.ACR_PASS }}
     - run: |
             docker push ${{ vars.ACR_SERVER }}/eshopwebmvc
-            docker push ${{ vars.ACR_SERVER }}/eshoppublicapi     
+            docker push ${{ vars.ACR_SERVER }}/eshoppublicapi   
 
     - name: Log into Azure
       uses: azure/login@v1
@@ -42,7 +42,7 @@ jobs:
       with:
             resource-group: ${{ vars.AZURE_RG }}
             dns-name-label: ${{ vars.AZURE_RG }}${{ github.run_number }}
-            image: ${{ vars.AZURE_RG }}/eshopwebmvc:${{ github.sha }}
+            image: ${{ vars.ACR_SERVER }}/eshopwebmvc
             registry-login-server: ${{ vars.ACR_SERVER }}
             registry-username: ${{ vars.ACR_USERNAME }}
             registry-password: ${{ secrets.ACR_PASS }}
