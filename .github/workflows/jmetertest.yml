@@ -1,5 +1,8 @@
 on:
   workflow_dispatch:
+
+name: eShop-JMeter-Test
+  
 jobs:
   Main:
     runs-on: ubuntu-latest
