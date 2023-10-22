@@ -1,26 +1,45 @@
-name: Test Build
+name: Docker Image CI
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
 
+env:
+  env_var: ${{ vars.ENV_CONTEXT_VAR }}
 
+  
 jobs:
-  build:
 
+  build:
+    environment: Development   
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore ./eShopOnWeb.sln
-      
-    - name: Build
-      run: dotnet build ./eShopOnWeb.sln --no-restore
 
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: Azure/get-keyvault-secrets@v1
+      with: 
+        keyvault: 'alex-demo-kv'
+        secrets: 'ACR-PASS'
+      id: arc-pass
+          
+    
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker compose build 
+
+    - name: Deploy to ARC
+      uses: azure/docker-login@v1
+      with:
+            login-server:  ${{ vars.ACR_SERVER }}
+            username: ${{ vars.ACR_USERNAME }}
+            password: ${{ arc-pass }}            
+    - run: |
+            docker push ${{ vars.ACR_SERVER }}/eshopwebmvc
+            docker push ${{ vars.ACR_SERVER }}/eshoppublicapi   
+
+
+
+   
