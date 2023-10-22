@@ -25,21 +25,7 @@ jobs:
         secrets: 'ACR-PASS'
       id: arc-pass
           
-    
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker compose build 
-
-    - name: Deploy to ARC
-      uses: azure/docker-login@v1
-      with:
-            login-server:  ${{ vars.ACR_SERVER }}
-            username: ${{ vars.ACR_USERNAME }}
-            password: ${{ arc-pass }}            
-    - run: |
-            docker push ${{ vars.ACR_SERVER }}/eshopwebmvc
-            docker push ${{ vars.ACR_SERVER }}/eshoppublicapi   
-
+ 
 
 
    
