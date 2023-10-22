@@ -21,7 +21,7 @@ jobs:
       - name: Analyze Results with Latency Lingo
         uses: latency-lingo/github-action@v0.0.2
         with:
-          api-key: ${{ secrets.LATENCY_LINGO_API_KEY }}
+          api-key: 18e65fd6-8566-4cbd-9d1f-82c8fe66d484
           file: result.jtl
           label: Checkout Flow Automated Test Plan
           format: jmeter
