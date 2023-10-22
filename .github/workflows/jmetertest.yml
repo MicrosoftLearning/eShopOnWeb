@@ -13,14 +13,12 @@ jobs:
         with:
           test-plan-path: WebTest.jmx
           args: ''
+          
       - name: Upload Results
         uses: actions/upload-artifact@v2
         with:
           name: jmeter-results
-          path: result.jtl
-      
-      - name: Cat
-        run: cat result.jtl
+          path: result.jtl      
         
       - name: Analyze Results with Latency Lingo
         uses: latency-lingo/github-action@v0.0.2
