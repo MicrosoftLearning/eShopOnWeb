@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.2">
-  <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="eShopWeb" enabled="true">
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.tearDown_on_shutdown">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
-      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-        <collectionProp name="Arguments.arguments"/>
-      </elementProp>
-    </TestPlan>
-    <hashTree>
-      <OpenModelThreadGroup guiclass="OpenModelThreadGroupGui" testclass="OpenModelThreadGroup" testname="Open Model Thread Group" enabled="true">
-        <elementProp name="ThreadGroup.main_controller" elementType="OpenModelThreadGroupController"/>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-      </OpenModelThreadGroup>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.1">
+	<hashTree>
+		<TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Azure Load Testing Quickstart" enabled="true">
+			<stringProp name="TestPlan.comments"></stringProp>
+			<boolProp name="TestPlan.functional_mode">false</boolProp>
+			<boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+			<boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+			<elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+				<collectionProp name="Arguments.arguments"/>
+			</elementProp>
+			<stringProp name="TestPlan.user_define_classpath"></stringProp>
+		</TestPlan>
+		<hashTree>
+			<ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Web endpoint test" enabled="true">
+				<stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+				<elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+					<boolProp name="LoopController.continue_forever">false</boolProp>
+					<intProp name="LoopController.loops">-1</intProp>
+				</elementProp>
+				<stringProp name="ThreadGroup.num_threads">5</stringProp>
+				<stringProp name="ThreadGroup.ramp_time">10</stringProp>
+				<boolProp name="ThreadGroup.scheduler">true</boolProp>
+				<stringProp name="ThreadGroup.duration">120</stringProp>
+				<stringProp name="ThreadGroup.delay">5</stringProp>
+				<boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+			</ThreadGroup>
+			<hashTree>
+				<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP request" enabled="true">
+					<elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Sample web test" enabled="true">
+						<collectionProp name="Arguments.arguments"/>
+					</elementProp>
+					<stringProp name="HTTPSampler.domain">eshop-demo-dev.azurewebsites.net</stringProp>
+					<stringProp name="HTTPSampler.port"></stringProp>
+					<stringProp name="HTTPSampler.protocol"></stringProp>
+					<stringProp name="HTTPSampler.contentEncoding"></stringProp>
+					<stringProp name="HTTPSampler.path">/</stringProp>
+					<stringProp name="HTTPSampler.method">GET</stringProp>
+					<boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+					<boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+					<boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+					<boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+					<stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+					<stringProp name="HTTPSampler.connect_timeout"></stringProp>
+					<stringProp name="HTTPSampler.response_timeout"></stringProp>
+				</HTTPSamplerProxy>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Index" enabled="true">
-          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">eshop-demo-dev.azurewebsites.net</stringProp>
-          <stringProp name="HTTPSampler.port">443</stringProp>
-          <stringProp name="HTTPSampler.protocol">https</stringProp>
-          <stringProp name="HTTPSampler.path">/</stringProp>
-          <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">false</boolProp>
-          <boolProp name="HTTPSampler.image_parser">false</boolProp>
-          <boolProp name="HTTPSampler.concurrentDwn">false</boolProp>
-          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-          <boolProp name="HTTPSampler.md5">false</boolProp>
-          <intProp name="HTTPSampler.ipSourceType">0</intProp>
-          <stringProp name="TestPlan.comments">https://eshop-demo-dev.azurewebsites.net/</stringProp>
-        </HTTPSamplerProxy>
-        <hashTree>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
             <stringProp name="ConstantTimer.delay">300</stringProp>
           </ConstantTimer>
@@ -49,8 +56,8 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">eshop-demo-dev.azurewebsites.net</stringProp>
-          <stringProp name="HTTPSampler.port">443</stringProp>
-          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.path">?CatalogModel.BrandFilterApplied=5&amp;CatalogModel.TypesFilterApplied=All&amp;x=16&amp;y=15https://eshop-demo-dev.azurewebsites.net/</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -77,8 +84,8 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">eshop-demo-dev.azurewebsites.net</stringProp>
-          <stringProp name="HTTPSampler.port">443</stringProp>
-          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.path">?CatalogModel.BrandFilterApplied=2&amp;CatalogModel.TypesFilterApplied=1&amp;x=9&amp;y=13</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -105,8 +112,8 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">eshop-demo-dev.azurewebsites.net</stringProp>
-          <stringProp name="HTTPSampler.port">443</stringProp>
-          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.path">/Basket</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
