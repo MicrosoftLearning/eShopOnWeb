@@ -19,8 +19,8 @@ jobs:
         dotnet-version: 6.0.x
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./eShopOnWeb.sln
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./eShopOnWeb.sln --no-restore
 
