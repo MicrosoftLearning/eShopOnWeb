@@ -18,6 +18,10 @@ jobs:
         with:
           name: jmeter-results
           path: result.jtl
+      
+      - name: Cat
+        run: cat result.jtl
+        
       - name: Analyze Results with Latency Lingo
         uses: latency-lingo/github-action@v0.0.2
         with:
