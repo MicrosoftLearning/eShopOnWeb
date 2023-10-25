@@ -2,10 +2,10 @@ name: Docker Image CI
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - dev
-      - main
+  #push:
+  #  branches:
+  #    - dev
+  #    - main
 
 env:
   env_var: ${{ vars.ENV_CONTEXT_VAR }}
