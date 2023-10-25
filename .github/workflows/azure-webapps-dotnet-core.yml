@@ -3,6 +3,7 @@ name: Deploy to PROD with Slots
 
 on:
   workflow_dispatch:
+  push:   
 
 env:
   env_var: ${{ vars.ENV_CONTEXT_VAR }}
