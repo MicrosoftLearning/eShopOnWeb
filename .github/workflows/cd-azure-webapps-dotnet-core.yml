@@ -1,4 +1,4 @@
-name: DEV/PROD Build and deploy
+name: CD - DEV/PROD
 
 
 on:
