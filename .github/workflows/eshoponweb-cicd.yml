@@ -1,4 +1,4 @@
-name: eShopOnWeb Build and Test
+name: eShopOnWeb Build and Test    //test
 
 #Triggers (uncomment line below to use it)
 #on: [push, workflow_dispatch]
