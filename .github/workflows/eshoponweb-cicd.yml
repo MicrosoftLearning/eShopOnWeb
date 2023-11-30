@@ -73,6 +73,8 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+        environment: 'AzureUSGovernment'
+        enable-AZPSSession: true
            
     # Deploy Azure WebApp using Bicep file
     - name: deploy
