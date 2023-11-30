@@ -9,7 +9,7 @@ env:
   LOCATION: usgovvirginia
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: d7369bdd-0354-4ae6-bc06-3c998e3ca255
-  WEBAPP-NAME: webapp-eShopOnWeb-CICD-demo
+  WEBAPP-NAME: webapp-eShopOnJ6Cloud-demo
 
 
 jobs:
