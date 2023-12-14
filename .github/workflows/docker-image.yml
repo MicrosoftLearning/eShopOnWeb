@@ -1,0 +1,60 @@
+# NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml")
+
+resources:
+  repositories:
+    - repository: self
+      trigger: none
+
+variables:
+  azureServiceConnection: 'azure-connection'
+  subscriptionId: '341a411d-cdb3-4bb8-9db6-4955c9bcb54b'
+  resourceGroup: 'rg-az400-container-xomnhala'
+  location: 'eastus'
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Deploy ACR using Bicep
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: $(azureServiceConnection)
+        subscriptionId: $(subscriptionId)
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: '$(resourceGroup)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: '.azure/bicep/acr.bicep'
+        deploymentMode: 'Incremental'
+        deploymentOutputs: 'outputJson'
+    - task: PowerShell@2
+      displayName: Parse Bicep Output
+      inputs:
+        targetType: 'inline'
+        script: |
+          $var=ConvertFrom-Json '$(outputJson)'
+          $value=$var.acrLoginServer.value
+          Write-Host "##vso[task.setvariable variable=acrLoginServer;]$value"
+    - task: Docker@0
+      displayName: 'Build the docker image'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        azureContainerRegistry: $(acrLoginServer)
+        dockerFile: 'src/Web/Dockerfile'
+        defaultContext: false
+        context: $(Build.SourcesDirectory)
+        includeLatestTag: true
+        imageName: eshoponweb/web:$(Build.BuildId)
+    - task: Docker@0
+      displayName: 'Push the docker images'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        azureContainerRegistry: $(acrLoginServer)
+        action: 'Push an image'
+        imageName: eshoponweb/web:$(Build.BuildId)
+        includeLatestTag: true
+    
