@@ -51,7 +51,7 @@ spec:
         - name: DOCKER_HOST
           value: "tcp://dindsvc:2375"
       dockerdWithinRunnerContainer: true    
-      repository: theonemule/dos-game
+      repository: CCJ66-SC/eShopOnJ6Cloud
       tolerations:
       - key: virtual-kubelet.io/provider
         operator: "Exists"
