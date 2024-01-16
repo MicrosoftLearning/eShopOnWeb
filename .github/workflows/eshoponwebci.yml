@@ -1,0 +1,31 @@
+name: eShopOnWeb CI
+
+#Triggers (uncomment line below to use it)
+on: [push, workflow_dispatch]
+
+jobs:
+  #Build, test and publish .net web project in repository
+  buildandtest:
+    runs-on: ubuntu-latest
+    steps:
+    #checkout the repository
+    - uses: actions/checkout@v2
+    #prepare runner for desired .net version SDK
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0.x'
+        include-prerelease: true
+    #Build/Test/Publish the .net project
+    - name: Build with dotnet
+      run: dotnet build ./eShopOnWeb.sln --configuration Release
+    - name: Test with dotnet
+      run: dotnet test ./eShopOnWeb.sln --configuration Release
+    - name: dotnet publish
+      run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+    # upload the published website code artifacts
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: .net-app
+        path: ${{env.DOTNET_ROOT}}/myapp
