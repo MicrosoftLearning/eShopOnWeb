@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshopweb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eshopweb
+  template:
+    metadata:
+      labels:
+        app: eshopweb
+    spec:
+      containers:
+      - name: eshopweb
+        image: eshoponwebunai.azurecr.io/eshoponwebvtd:latest
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eshopweb-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: eshopweb

@@ -20,6 +20,9 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/src/Web/out ./
+#Export port 5106
+EXPOSE 5106
+EXPOSE 80
 
 # Optional: Set this here if not setting it from docker-compose.yml
 # ENV ASPNETCORE_ENVIRONMENT Development
