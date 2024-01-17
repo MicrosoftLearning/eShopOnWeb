@@ -7,13 +7,15 @@
 	"features": {
 		"ghcr.io/devcontainers/features/azure-cli:1": {},
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/rchaganti/vsc-devcontainer-features/azurebicep:1": {}
+		"ghcr.io/rchaganti/vsc-devcontainer-features/azurebicep:1": {},
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {}
 	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"ms-azuretools.vscode-bicep",
-				"GitHub.copilot"
+				"GitHub.copilot",
+				"mindaro.mindaro"
 			]
 		}
 	}
