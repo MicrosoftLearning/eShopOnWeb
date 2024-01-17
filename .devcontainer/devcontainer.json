@@ -15,7 +15,8 @@
 			"extensions": [
 				"ms-azuretools.vscode-bicep",
 				"GitHub.copilot",
-				"mindaro.mindaro"
+				"mindaro.mindaro",
+				"ms-vscode.vscode-node-azure-pack"
 			]
 		}
 	}

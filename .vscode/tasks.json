@@ -37,6 +37,27 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "bridge-to-kubernetes.resource",
+            "type": "bridge-to-kubernetes.resource",
+            "resource": "eshoponwebvtd-service",
+            "resourceType": "service",
+            "ports": [
+                5001
+            ],
+            "targetCluster": "eshoponweb-aks",
+            "targetNamespace": "default-1705514285858",
+            "useKubernetesServiceEnvironmentVariables": false,
+            "targetContainer": "eshoponwebvtd"
+        },
+        {
+            "label": "bridge-to-kubernetes.compound",
+            "dependsOn": [
+                "bridge-to-kubernetes.resource",
+                "build"
+            ],
+            "dependsOrder": "sequence"
         }
     ]
 }
