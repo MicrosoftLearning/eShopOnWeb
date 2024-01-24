@@ -34,8 +34,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.3" />
-    <PackageReference Include="Azure.Identity" Version="1.10.0" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.2.0" />
+    <PackageReference Include="Azure.Identity" Version="1.10.4" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\fonts\" />
