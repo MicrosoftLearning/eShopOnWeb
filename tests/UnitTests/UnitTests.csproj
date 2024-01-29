@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <RootNamespace>Microsoft.eShopWeb.UnitTests</RootNamespace>
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
