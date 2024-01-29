@@ -92,9 +92,9 @@
 
 @code {
     [Parameter]
-    public IEnumerable<CatalogBrand> Brands { get; set; } = default!;
+    public IEnumerable<CatalogBrand> Brands { get; set; }
     [Parameter]
-    public IEnumerable<CatalogType> Types { get; set; } = default!;
+    public IEnumerable<CatalogType> Types { get; set; }
 
     [Parameter]
     public EventCallback<string> OnSaveClick { get; set; }

@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.ApplicationCore.Specifications;
@@ -9,7 +6,7 @@ using Microsoft.eShopWeb.Web.ViewModels;
 
 namespace Microsoft.eShopWeb.Web.Features.OrderDetails;
 
-public class GetOrderDetailsHandler : IRequestHandler<GetOrderDetails, OrderViewModel>
+public class GetOrderDetailsHandler : IRequestHandler<GetOrderDetails, OrderDetailViewModel?>
 {
     private readonly IReadRepository<Order> _orderRepository;
 
@@ -18,18 +15,18 @@ public class GetOrderDetailsHandler : IRequestHandler<GetOrderDetails, OrderView
         _orderRepository = orderRepository;
     }
 
-    public async Task<OrderViewModel> Handle(GetOrderDetails request,
+    public async Task<OrderDetailViewModel?> Handle(GetOrderDetails request,
         CancellationToken cancellationToken)
     {
         var spec = new OrderWithItemsByIdSpec(request.OrderId);
-        var order = await _orderRepository.GetBySpecAsync(spec, cancellationToken);
+        var order = await _orderRepository.FirstOrDefaultAsync(spec, cancellationToken);
 
         if (order == null)
         {
             return null;
         }
 
-        return new OrderViewModel
+        return new OrderDetailViewModel
         {
             OrderDate = order.OrderDate,
             OrderItems = order.OrderItems.Select(oi => new OrderItemViewModel
