@@ -5,11 +5,11 @@ name: eShopOnWeb Build and Test
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
-  RESOURCE-GROUP: rg-az400-eshoponweb-NAME
+  RESOURCE-GROUP: rg-eshoponweb-NAME
   LOCATION: westeurope
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: YOUR-SUBS-ID
-  WEBAPP-NAME: az400-webapp-NAME
+  WEBAPP-NAME: eshoponweb-webapp-NAME
 
 
 jobs:
@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     #checkout the repository
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     #prepare runner for desired .net version SDK
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '7.0.x'
+        dotnet-version: '8.0.x'
         include-prerelease: true
     #Build/Test/Publish the .net project
     - name: Build with dotnet

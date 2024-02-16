@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>disable</Nullable>
+  <PropertyGroup>   
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Microsoft.eShopWeb.Web</RootNamespace>
     <UserSecretsId>aspnet-Web2-1FA3F72E-E7E3-4360-9E49-1CCCD7FE85F7</UserSecretsId>
@@ -14,28 +13,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.ListStartupServices" Version="1.1.4" />
-    <PackageReference Include="Ardalis.Specification" Version="7.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" Condition="'$(Configuration)'=='Release'" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.10" />
-    <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="6.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
-    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.6.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.9" />
-    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
+    <PackageReference Include="Ardalis.ListStartupServices" />
+    <PackageReference Include="Ardalis.Specification" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" />
+    <PackageReference Include="Azure.Identity" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="BuildBundlerMinifier" Condition="'$(Configuration)'=='Release'" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.2.0" />
-    <PackageReference Include="Azure.Identity" Version="1.10.4" />
+    </PackageReference>     
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\fonts\" />
