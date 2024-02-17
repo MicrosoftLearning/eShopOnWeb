@@ -28,7 +28,7 @@ stages:
         resourceGroupName: '$(resourceGroup)'
         location: '$(location)'
         templateLocation: 'Linked artifact'
-        csmFile: '.azure/bicep/webapp-docker.bicep'
+        csmFile: 'infra/webapp-docker.bicep'
         deploymentMode: 'Incremental'
     - task: AzureResourceManagerTemplateDeployment@3
       displayName: Add Role Assignment using Bicep
@@ -40,5 +40,5 @@ stages:
         resourceGroupName: '$(resourceGroup)'
         location: '$(location)'
         templateLocation: 'Linked artifact'
-        csmFile: '.azure/bicep/webapp-to-acr-roleassignment.bicep'
+        csmFile: 'infra/webapp-to-acr-roleassignment.bicep'
         deploymentMode: 'Incremental'
