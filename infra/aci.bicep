@@ -25,11 +25,11 @@ param memoryInGb int = 2
 param restartPolicy string = 'Always'
 
 @secure()
-param password string 
+param password string
 
 param username string
 
-param server string 
+param server string
 
 resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01' = {
   name: name
@@ -44,11 +44,11 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
             {
               port: port
               protocol: 'TCP'
-              
+
             }
             {
               port: 80
-              protocol:  'TCP'
+              protocol: 'TCP'
             }
           ]
           resources: {
@@ -57,6 +57,20 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
               memoryInGB: memoryInGb
             }
           }
+          environmentVariables: [
+            {
+              name: 'ASPNETCORE_ENVIRONMENT'
+              value: 'Docker'
+            }
+            {
+              name: 'UseOnlyInMemoryDatabase'
+              value: 'true'
+            }
+            {
+              name: 'ASPNETCORE_HTTP_PORTS'
+              value: '80'
+            }
+          ]
         }
       }
     ]
@@ -67,11 +81,11 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
       ports: [
         {
           port: port
-          protocol: 'TCP'   
+          protocol: 'TCP'
         }
         {
           port: 80
-          protocol:  'TCP'
+          protocol: 'TCP'
         }
       ]
     }

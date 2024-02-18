@@ -14,9 +14,9 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   kind: 'linux'
   properties: {
     reserved: true
-  }	
-  sku:  {
-  	name: 'B1'
+  }
+  sku: {
+    name: 'B1'
   }
 }
 
@@ -27,7 +27,20 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   properties: {
     siteConfig: {
       acrUseManagedIdentityCreds: true
-      appSettings: []
+      appSettings: [
+        {
+          name: 'UseOnlyInMemoryDatabase'
+          value: 'true'
+        }
+        {
+          name: 'ASPNETCORE_ENVIRONMENT'
+          value: 'Docker'
+        }
+        {
+          name: 'ASPNETCORE_HTTP_PORTS'
+          value: '80'
+        }
+      ]
       linuxFxVersion: 'DOCKER|${acr.properties.loginServer}/eshoponweb/web:latest'
     }
     serverFarmId: appServicePlan.id
