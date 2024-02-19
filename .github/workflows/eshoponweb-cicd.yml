@@ -1,6 +1,6 @@
 name: eShopOnWeb Build and Test
 #edit
-#Triggers (uncomment line below to use it)
+#Triggers (uncomment line below to use it1)
 on: [push, workflow_dispatch]
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
