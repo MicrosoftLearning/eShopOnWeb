@@ -15,9 +15,8 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogItemEndpoints;
 /// <summary>
 /// List Catalog Items (paged)
 /// </summary>
-public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogItemRequest>
+public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogItemRequest, IRepository<CatalogItem>>
 {
-    private IRepository<CatalogItem> _itemRepository;
     private readonly IUriComposer _uriComposer;
     private readonly IMapper _mapper;
 
@@ -32,27 +31,27 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
         app.MapGet("api/catalog-items",
             async (int? pageSize, int? pageIndex, int? catalogBrandId, int? catalogTypeId, IRepository<CatalogItem> itemRepository) =>
             {
-                _itemRepository = itemRepository;
-                return await HandleAsync(new ListPagedCatalogItemRequest(pageSize, pageIndex, catalogBrandId, catalogTypeId));
-            })            
+                return await HandleAsync(new ListPagedCatalogItemRequest(pageSize, pageIndex, catalogBrandId, catalogTypeId), itemRepository);
+            })
             .Produces<ListPagedCatalogItemResponse>()
             .WithTags("CatalogItemEndpoints");
     }
 
-    public async Task<IResult> HandleAsync(ListPagedCatalogItemRequest request)
+    public async Task<IResult> HandleAsync(ListPagedCatalogItemRequest request, IRepository<CatalogItem> itemRepository)
     {
+        await Task.Delay(1000);
         var response = new ListPagedCatalogItemResponse(request.CorrelationId());
 
         var filterSpec = new CatalogFilterSpecification(request.CatalogBrandId, request.CatalogTypeId);
-        int totalItems = await _itemRepository.CountAsync(filterSpec);
+        int totalItems = await itemRepository.CountAsync(filterSpec);
 
         var pagedSpec = new CatalogFilterPaginatedSpecification(
-            skip: request.PageIndex.Value * request.PageSize.Value,
-            take: request.PageSize.Value,
+            skip: request.PageIndex * request.PageSize,
+            take: request.PageSize,
             brandId: request.CatalogBrandId,
             typeId: request.CatalogTypeId);
 
-        var items = await _itemRepository.ListAsync(pagedSpec);
+        var items = await itemRepository.ListAsync(pagedSpec);
 
         response.CatalogItems.AddRange(items.Select(_mapper.Map<CatalogItemDto>));
         foreach (CatalogItemDto item in response.CatalogItems)
@@ -62,7 +61,7 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
 
         if (request.PageSize > 0)
         {
-            response.PageCount = int.Parse(Math.Ceiling((decimal)totalItems / request.PageSize.Value).ToString());
+            response.PageCount = int.Parse(Math.Ceiling((decimal)totalItems / request.PageSize).ToString());
         }
         else
         {

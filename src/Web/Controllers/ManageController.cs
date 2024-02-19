@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Encodings.Web;
+using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -40,7 +41,7 @@ public class ManageController : Controller
     }
 
     [TempData]
-    public string StatusMessage { get; set; }
+    public string? StatusMessage { get; set; }
 
     [HttpGet]
     public async Task<IActionResult> MyAccount()
@@ -119,7 +120,13 @@ public class ManageController : Controller
 
         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+        Guard.Against.Null(callbackUrl, nameof(callbackUrl));
         var email = user.Email;
+        if (email == null)
+        {
+            throw new ApplicationException($"No email associated with user {user.UserName}'.");
+        }
+
         await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
         StatusMessage = "Verification email sent. Please check your email.";
@@ -160,7 +167,8 @@ public class ManageController : Controller
             throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        var changePasswordResult = await _userManager
+            .ChangePasswordAsync(user, model.OldPassword!, model.NewPassword!);
         if (!changePasswordResult.Succeeded)
         {
             AddErrors(changePasswordResult);
@@ -209,7 +217,7 @@ public class ManageController : Controller
             throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        var addPasswordResult = await _userManager.AddPasswordAsync(user, model.NewPassword);
+        var addPasswordResult = await _userManager.AddPasswordAsync(user, model.NewPassword!);
         if (!addPasswordResult.Succeeded)
         {
             AddErrors(addPasswordResult);
@@ -290,6 +298,10 @@ public class ManageController : Controller
         if (user == null)
         {
             throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        }
+        if (!ModelState.IsValid)
+        {
+            return View(model);
         }
 
         var result = await _userManager.RemoveLoginAsync(user, model.LoginProvider, model.ProviderKey);
@@ -377,7 +389,7 @@ public class ManageController : Controller
     [HttpGet]
     public IActionResult ShowRecoveryCodes()
     {
-        var recoveryCodes = (string[])TempData[RecoveryCodesKey];
+        var recoveryCodes = (string[]?)TempData[RecoveryCodesKey];
         if (recoveryCodes == null)
         {
             return RedirectToAction(nameof(TwoFactorAuthentication));
@@ -405,7 +417,7 @@ public class ManageController : Controller
         }
 
         // Strip spaces and hypens
-        var verificationCode = model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
+        string verificationCode = model.Code?.Replace(" ", string.Empty).Replace("-", string.Empty) ?? "";
 
         var is2faTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
             user, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
@@ -419,7 +431,7 @@ public class ManageController : Controller
 
         await _userManager.SetTwoFactorEnabledAsync(user, true);
         _logger.LogInformation("User with ID {UserId} has enabled 2FA with an authenticator app.", user.Id);
-        var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
+        var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10) ?? new List<string>();
         TempData[RecoveryCodesKey] = recoveryCodes.ToArray();
 
         return RedirectToAction(nameof(ShowRecoveryCodes));
@@ -463,7 +475,7 @@ public class ManageController : Controller
             throw new ApplicationException($"Cannot generate recovery codes for user with ID '{user.Id}' as they do not have 2FA enabled.");
         }
 
-        var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
+        var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10) ?? new List<string>();
         _logger.LogInformation("User with ID {UserId} has generated new 2FA recovery codes.", user.Id);
 
         var model = new ShowRecoveryCodesViewModel { RecoveryCodes = recoveryCodes.ToArray() };
@@ -531,8 +543,8 @@ public class ManageController : Controller
             unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
         }
 
-        model.SharedKey = FormatKey(unformattedKey);
-        model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
+        model.SharedKey = FormatKey(unformattedKey!);
+        model.AuthenticatorUri = GenerateQrCodeUri(user.Email!, unformattedKey!);
     }
 
 }

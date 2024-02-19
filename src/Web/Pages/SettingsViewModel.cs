@@ -2,5 +2,5 @@
 
 public class SettingsViewModel
 {
-    public string NoResultsMessage { get; set; }
+    public string? NoResultsMessage { get; set; }
 }

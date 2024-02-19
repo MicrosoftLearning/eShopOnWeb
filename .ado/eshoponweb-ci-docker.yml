@@ -28,7 +28,7 @@ stages:
         resourceGroupName: '$(resourceGroup)'
         location: '$(location)'
         templateLocation: 'Linked artifact'
-        csmFile: '.azure/bicep/acr.bicep'
+        csmFile: 'infra/acr.bicep'
         deploymentMode: 'Incremental'
         deploymentOutputs: 'outputJson'
     - task: PowerShell@2
