@@ -7,7 +7,7 @@ name: eShopOnWeb Build and Test
 env:
   RESOURCE-GROUP: rg-eshoponweb-NAME
   LOCATION: westeurope
-  TEMPLATE-FILE: .azure/bicep/webapp.bicep
+  TEMPLATE-FILE: infra/webapp.bicep
   SUBSCRIPTION-ID: YOUR-SUBS-ID
   WEBAPP-NAME: eshoponweb-webapp-NAME
 
