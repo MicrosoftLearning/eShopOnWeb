@@ -9,7 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Ardalis.ApiEndpoints" Version="4.1.0" />
-    <PackageVersion Include="Ardalis.GuardClauses" Version="4.4.0" />
+    <PackageVersion Include="Ardalis.GuardClauses" Version="4.5.0" />
     <PackageVersion Include="Ardalis.Specification.EntityFrameworkCore" Version="8.0.0" />
     <PackageVersion Include="Ardalis.Result" Version="7.2.0" />
     <PackageVersion Include="Ardalis.Specification" Version="8.0.0" />
