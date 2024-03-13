@@ -18,7 +18,6 @@ using Microsoft.eShopWeb.Web;
 using Microsoft.eShopWeb.Web.Configuration;
 using Microsoft.eShopWeb.Web.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Azure.Identity;
 using Microsoft.eShopWeb.Web.Pages;
 using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
@@ -26,11 +25,13 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
 
-if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "Docker"){
+if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "Docker")
+{
     // Configure SQL Server (local)
     Microsoft.eShopWeb.Infrastructure.Dependencies.ConfigureServices(builder.Configuration, builder.Services);
 }
-else{
+else
+{
     // Configure SQL Server (prod)
     var credential = new ChainedTokenCredential(new AzureDeveloperCliCredential(), new DefaultAzureCredential());
     builder.Configuration.AddAzureKeyVault(new Uri(builder.Configuration["AZURE_KEY_VAULT_ENDPOINT"] ?? ""), credential);
@@ -110,7 +111,14 @@ if (useAppConfig)
 {
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
-        options.Connect(new Uri(builder.Configuration["AppConfigEndpoint"]), new DefaultAzureCredential())
+        var appConfigEndpoint = builder.Configuration["AppConfigEndpoint"];
+
+        if (String.IsNullOrEmpty(appConfigEndpoint))
+        {
+            throw new Exception("AppConfigEndpoint is not set in the configuration. Please set AppConfigEndpoint in the configuration.");
+        }
+
+        options.Connect(new Uri(appConfigEndpoint), new DefaultAzureCredential())
         .ConfigureRefresh(refresh =>
         {
             // Default cache expiration is 30 seconds
