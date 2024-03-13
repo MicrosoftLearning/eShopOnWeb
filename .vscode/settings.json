@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/48640fa2-e257-4a45-a974-878a933075d5/resourceGroups/AZ400-EWebShop/providers/Microsoft.Web/sites/az400-webapp-rrf",
-    "appService.deploySubpath": "src\\Web"
-}
