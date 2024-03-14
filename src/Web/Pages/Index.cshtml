@@ -5,7 +5,9 @@
 }
 <section class="esh-catalog-hero">
     <div class="container">
-        <img class="esh-catalog-title" src="~/images/main_banner_text.png" />
+        <feature name="SalesWeekend">
+            <img class="esh-catalog-title" src="~/images/main_banner_text.png" />
+        </feature>
     </div>
 </section>
 <section class="esh-catalog-filters">
@@ -39,7 +41,7 @@
     else
     {
         <div class="esh-catalog-items row">
-            THERE ARE NO RESULTS THAT MATCH YOUR SEARCH
+            @Model.SettingsModel.NoResultsMessage
         </div>
     }
 </div>
