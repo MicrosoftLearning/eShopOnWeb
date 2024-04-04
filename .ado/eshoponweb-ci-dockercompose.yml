@@ -65,6 +65,7 @@ stages:
         action: 'Build services'
         additionalImageTags: '$(Build.BuildNumber)'
         includeLatestTag: true
+        dockerComposePath: '/usr/libexec/docker/cli-plugins/docker-compose'
     - task: DockerCompose@0
       displayName: Push Docker Compose
       inputs:
@@ -76,3 +77,4 @@ stages:
         action: 'Push services'
         additionalImageTags: '$(Build.BuildNumber)'
         includeLatestTag: true
+        dockerComposePath: '/usr/libexec/docker/cli-plugins/docker-compose'
