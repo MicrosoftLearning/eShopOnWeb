@@ -38,7 +38,7 @@
     <PackageVersion Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
-    <PackageVersion Include="Microsoft.FeatureManagement.AspNetCore" Version="4.0.0-preview2" />
+    <PackageVersion Include="Microsoft.FeatureManagement.AspNetCore" Version="4.0.0-preview3" />
     <PackageVersion Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="7.1.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
       <PrivateAssets>all</PrivateAssets>
