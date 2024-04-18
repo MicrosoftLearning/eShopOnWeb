@@ -56,10 +56,10 @@ stages:
         command: 'publish'
         publishWebProjects: true
         arguments: '-o $(Build.ArtifactStagingDirectory)'
-    
-    - task: PublishBuildArtifacts@1
+
+    - task: PublishPipelineArtifact@1
       displayName: Publish Artifacts ADO - Website
       inputs:
-        pathToPublish: '$(Build.ArtifactStagingDirectory)'
-        artifactName: Website
-    
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        artifact: 'Website'
+        publishLocation: 'pipeline'    
