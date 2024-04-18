@@ -87,8 +87,8 @@ jobs:
         failOnStdErr: false   
     
     # Publish website to Azure App Service (WebApp)
-    - uses: Azure/cli@v2
-      name: Azure Deploy WebApp
+    - name: Publish Website to WebApp
+      uses: Azure/cli@v2
       with:
         inlineScript: |
              az webapp deploy --name ${{ env.WEBAPP-NAME }} --resource-group ${{ env.RESOURCE-GROUP }} --src-path .net-app/app.zip --type zip
