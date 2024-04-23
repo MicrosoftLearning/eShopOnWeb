@@ -92,8 +92,9 @@ jobs:
       if: false #Disable step due to comment above
       uses: Azure/webapps-deploy@v3
       with:
+        type: ZIP
         app-name: ${{ env.WEBAPP-NAME  }}
-        package: .net-app
+        package: .net-app/app.zip
 
     # Publish website to Azure App Service using CLI (WebApp)
     - name: Publish Website to WebApp
