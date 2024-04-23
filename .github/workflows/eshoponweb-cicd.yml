@@ -87,6 +87,15 @@ jobs:
         failOnStdErr: false   
     
     # Publish website to Azure App Service (WebApp)
+    # Step disabled due to issue where the site sometimes can't be found: https://github.com/microsoft/pipelines-appservice-lib/issues/56. Instead deploy using CLI
+    - name: Publish Website to WebApp
+      if: false #Disable step due to comment above
+      uses: Azure/webapps-deploy@v3
+      with:
+        app-name: ${{ env.WEBAPP-NAME  }}
+        package: .net-app
+
+    # Publish website to Azure App Service using CLI (WebApp)
     - name: Publish Website to WebApp
       uses: Azure/cli@v2
       with:
