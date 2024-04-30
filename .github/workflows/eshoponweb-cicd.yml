@@ -5,12 +5,13 @@ on: [workflow_dispatch, push, pull_request]
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
+<<<<<< main
   RESOURCE-GROUP: rg-eShopOnWeb-CICD-demo
   LOCATION: usgovvirginia
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: d7369bdd-0354-4ae6-bc06-3c998e3ca255
   WEBAPP-NAME: webapp-eShopOnJ6Cloud-demo
-
+>>>>>> main
 
 jobs:
   #Build, test and publish .net web project in repository
@@ -18,13 +19,13 @@ jobs:
     runs-on: self-hosted
     steps:
     #checkout the repository
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     #prepare runner for desired .net version SDK
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '7.0.x'
-        include-prerelease: true
+        dotnet-version: '8.0.x'
+        dotnet-quality: 'preview'
     #Build/Test/Publish the .net project
     - name: Build with dotnet
       run: dotnet build ./eShopOnWeb.sln --configuration Release
@@ -34,14 +35,14 @@ jobs:
       run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
     # upload the published website code artifacts
     - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: .net-app
         path: ${{env.DOTNET_ROOT}}/myapp
         
     # upload the bicep template as artifacts for next job
     - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: bicep-template
         path: ${{ env.TEMPLATE-FILE }}
@@ -56,21 +57,21 @@ jobs:
     
     #Download the publish files created in previous job
     - name: Download artifact from build job
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: .net-app
         path: .net-app
   
     #Download the bicep templates from previous job
     - name: Download artifact from build job
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: bicep-template
         path: bicep-template
         
    #Login in your azure subscription using a service principal (credentials stored as GitHub Secret in repo)
     - name: Azure Login
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDS }}
         environment: 'AzureUSGovernment'
@@ -78,7 +79,7 @@ jobs:
            
     # Deploy Azure WebApp using Bicep file
     - name: deploy
-      uses: azure/arm-deploy@v1
+      uses: azure/arm-deploy@v2
       with:
         subscriptionId: ${{ env.SUBSCRIPTION-ID }}
         resourceGroupName: ${{ env.RESOURCE-GROUP }}
@@ -88,8 +89,7 @@ jobs:
     
     # Publish website to Azure App Service (WebApp)
     - name: Publish Website to WebApp
-      uses: Azure/webapps-deploy@v2
+      uses: Azure/webapps-deploy@v3
       with:
         app-name: ${{ env.WEBAPP-NAME  }}
         package: .net-app
-   

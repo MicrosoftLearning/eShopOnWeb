@@ -50,6 +50,6 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifacts ADO - Bicep
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)/.azure/bicep/webapp.bicep'
+        PathtoPublish: '$(Build.SourcesDirectory)/infra/webapp.bicep'
         ArtifactName: 'Bicep'
         publishLocation: 'Container'

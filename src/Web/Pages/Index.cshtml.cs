@@ -16,7 +16,7 @@ public class IndexModel : PageModel
         SettingsModel = options.Value;
     }
 
-    public CatalogIndexViewModel CatalogModel { get; set; } = new CatalogIndexViewModel();
+    public required CatalogIndexViewModel CatalogModel { get; set; } = new CatalogIndexViewModel();
 
     public async Task OnGet(CatalogIndexViewModel catalogModel, int? pageId)
     {

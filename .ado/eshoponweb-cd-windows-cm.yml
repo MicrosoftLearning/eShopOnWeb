@@ -1,7 +1,7 @@
 variables:
   resource-group: 'AZ400-EWebShop-NAME'
   location: 'westeurope'
-  templateFile: '.azure/bicep/simple-windows-vm.bicep'
+  templateFile: 'infra/simple-windows-vm.bicep'
   azureserviceconnection: 'azure subs'
 
 stages:
