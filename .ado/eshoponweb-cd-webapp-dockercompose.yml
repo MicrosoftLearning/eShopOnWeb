@@ -57,12 +57,20 @@ stages:
           echo $appserviceplan
 
     #Replace tokens in Docker Compose file
-    - task: replacetokens@6
+    - task: qetza.replacetokens.replacetokens-task.replacetokens@3
       inputs:
-        sources: 'docker-compose-webapp.yml'
-        tokenPattern: 'doubleunderscores'
-        addBOM: true
-
+        targetFiles: 'docker-compose-webapp.yml'
+        encoding: 'auto'
+        writeBOM: true
+        actionOnMissing: 'warn'
+        keepToken: false
+        actionOnNoFiles: 'continue'
+        enableTransforms: false
+        tokenPrefix: '__'
+        tokenSuffix: '__'
+        enableRecursion: false
+        useLegacyPattern: false
+        enableTelemetry: true
     #Docker Login into private ACR (TODO alternative, using Docker task and docker ADO Service Connection)
     #Deploy using Docker Compose
     - task: AzureCLI@2
