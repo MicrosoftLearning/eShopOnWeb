@@ -31,13 +31,15 @@ jobs:
     - name: Test with dotnet
       run: dotnet test ./eShopOnWeb.sln --configuration Release
     - name: dotnet publish
-      run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: |
+        dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        zip -r app.zip ${{env.DOTNET_ROOT}}/myapp
     # upload the published website code artifacts
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v4
       with:
         name: .net-app
-        path: ${{env.DOTNET_ROOT}}/myapp
+        path: app.zip
         
     # upload the bicep template as artifacts for next job
     - name: Upload artifact for deployment job
@@ -85,8 +87,18 @@ jobs:
         failOnStdErr: false   
     
     # Publish website to Azure App Service (WebApp)
+    # Step disabled due to issue where the site sometimes can't be found: https://github.com/microsoft/pipelines-appservice-lib/issues/56. Instead deploy using CLI
     - name: Publish Website to WebApp
+      if: false #Disable step due to comment above
       uses: Azure/webapps-deploy@v3
       with:
+        type: ZIP
         app-name: ${{ env.WEBAPP-NAME  }}
-        package: .net-app
+        package: .net-app/app.zip
+
+    # Publish website to Azure App Service using CLI (WebApp)
+    - name: Publish Website to WebApp
+      uses: Azure/cli@v2
+      with:
+        inlineScript: |
+             az webapp deploy --name ${{ env.WEBAPP-NAME }} --resource-group ${{ env.RESOURCE-GROUP }} --src-path .net-app/app.zip --type zip
