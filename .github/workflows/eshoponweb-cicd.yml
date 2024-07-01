@@ -10,7 +10,8 @@ name: eShopOnWeb Build and Test
 env:
   # RESOURCE-GROUP: rg-eshoponweb-NAME
   # new resource group
-  RESOURCE-GROUP: rg-eshoponweb-westeurope
+  # RESOURCE-GROUP: rg-eshoponweb-westeurope
+  RESOURCE-GROUP: rg-eshoponweb-eastus
   LOCATION: westeurope
   TEMPLATE-FILE: infra/webapp.bicep
   # SUBSCRIPTION-ID: YOUR-SUBS-ID
@@ -18,7 +19,8 @@ env:
   SUBSCRIPTION-ID: 67f86f12-0d0d-4ad6-a31e-d2ab1726fb47
   # WEBAPP-NAME: eshoponweb-webapp-NAME
   # New webapp Name
-  WEBAPP-NAME: devops-webapp-westeurope-2795930294
+  # WEBAPP-NAME: devops-webapp-westeurope-2795930294
+  WEBAPP_NAME: devops-webapp-eastus-1898723608
 
 
 jobs:
