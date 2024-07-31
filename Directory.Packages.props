@@ -40,7 +40,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
     <PackageVersion Include="Microsoft.FeatureManagement.AspNetCore" Version="4.0.0-preview2" />
     <PackageVersion Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="7.3.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
