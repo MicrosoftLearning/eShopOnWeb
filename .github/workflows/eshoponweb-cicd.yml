@@ -9,7 +9,7 @@ env:
   LOCATION: westeurope
   TEMPLATE-FILE: infra/webapp.bicep
   YOUR-SUBS-ID: c1cebcf3-f518-4def-b8e4-0e3463cdc396
-  eshoponweb-webapp-NAME: devops-webapp-westeurope-3240716643~
+  WEBAPP-NAME: devops-webapp-westeurope-3240716643~
 
 
 jobs:
