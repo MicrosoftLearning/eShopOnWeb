@@ -39,7 +39,7 @@ jobs:
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v4
       with:
-        name: devops-webapp-eastus-2185914704.net-app
+        name: devops.net-app
         path: ${{env.DOTNET_ROOT}}/app.zip
         
     # upload the bicep template as artifacts for next job
