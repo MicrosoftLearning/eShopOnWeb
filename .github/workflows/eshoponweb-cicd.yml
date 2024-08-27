@@ -9,7 +9,7 @@ env:
   LOCATION: canadaeast
   TEMPLATE-FILE: infra/webapp.bicep
   SUBSCRIPTION-ID: 9d310150-05e2-43b7-ab7f-cf6e3df8325a
-  WEBAPP-NAME: rg-eshoponweb-eastcanada-1788224337
+  WEBAPP-NAME: devops-webapp-eastcanada-3125222051
 
 
 jobs:
