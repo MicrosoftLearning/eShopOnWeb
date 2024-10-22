@@ -12,7 +12,7 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   resource-group: 'AZ400-EWebShop-NAME'
-  location: 'westeurope'
+  location: 'centralus'
   templateFile: '.ado/IaC/app-plan.bicep'
   subscriptionid: 'YOUR-SUBSCRIPTION-ID'
   azureserviceconnection: 'azure subs'

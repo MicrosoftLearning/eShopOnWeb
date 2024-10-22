@@ -15,7 +15,7 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   resource-group: 'AZ400-EWebShop-NAME'
-  location: 'westeurope'
+  location: 'centralus'
   templateFile: 'infra/acr.bicep'
   azureserviceconnection: 'azure subs'
   subscriptionId: 'YOUR-SUBSCRIPTION-ID'
