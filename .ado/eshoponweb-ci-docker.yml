@@ -6,10 +6,10 @@ resources:
       trigger: none
 
 variables:
-  azureServiceConnection: 'azure-connection'
+  azureServiceConnection: 'azure subs'
   subscriptionId: 'YOUR-SUBSCRIPTION-ID'
   resourceGroup: 'rg-az400-container-NAME'
-  location: 'westeurope'
+  location: 'centralus'
 
 stages:
 - stage: Build

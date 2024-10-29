@@ -1,6 +1,6 @@
 variables:
   resource-group: 'AZ400-EWebShop-NAME'
-  location: 'westeurope'
+  location: 'centralus'
   templateFile: 'infra/simple-windows-vm.bicep'
   azureserviceconnection: 'azure subs'
 
