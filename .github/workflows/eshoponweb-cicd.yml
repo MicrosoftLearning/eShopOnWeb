@@ -1,8 +1,15 @@
 name: eShopOnWeb Build and Test
 
 # Triggers (uncomment line below to use it)
-on: 
-  workflow_dispatch
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull requests targeting the main branch
+  workflow_dispatch:  # Keep manual trigger
+
 
 # Environment variables
 env:
