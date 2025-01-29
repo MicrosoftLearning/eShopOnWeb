@@ -25,6 +25,8 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
 
+builder.Configuration.AddEnvironmentVariables();
+
 if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "Docker")
 {
     // Configure SQL Server (local)
@@ -63,7 +65,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                            .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<ITokenClaimsService, IdentityTokenClaimService>();
-builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddCoreServices(builder.Configuration);
 builder.Services.AddWebServices(builder.Configuration);
 
