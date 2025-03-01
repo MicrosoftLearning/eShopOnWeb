@@ -5,7 +5,7 @@
     <AspNetVersion>8.0.0</AspNetVersion>
     <SystemExtensionVersion>8.0.1</SystemExtensionVersion>
     <EntityFramworkCoreVersion>8.0.0</EntityFramworkCoreVersion>
-    <VSCodeGeneratorVersion>8.0.4</VSCodeGeneratorVersion>
+    <VSCodeGeneratorVersion>9.0.0</VSCodeGeneratorVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Ardalis.ApiEndpoints" Version="4.1.0" />
@@ -52,7 +52,7 @@
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="System.Net.Http.Json" Version="$(SystemExtensionVersion)" />
     <PackageVersion Include="System.Security.Claims" Version="4.3.0" />
-    <PackageVersion Include="System.Text.Json" Version="8.0.5" />
+    <PackageVersion Include="System.Text.Json" Version="9.0.0-rc.2.24473.5" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.8.1" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.1.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.8.1" />
