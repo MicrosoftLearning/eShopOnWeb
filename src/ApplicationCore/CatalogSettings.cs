@@ -1,4 +1,5 @@
-﻿namespace Microsoft.eShopWeb;
+﻿// my commnet
+namespace Microsoft.eShopWeb;
 
 public class CatalogSettings
 {
