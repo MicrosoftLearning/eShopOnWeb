@@ -1,4 +1,6 @@
-﻿namespace Microsoft.eShopWeb.Web;
+// Testing fork
+
+namespace Microsoft.eShopWeb.Web;
 
 public static class Constants
 {
