@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eshoponweb-config
+  namespace: eshoponweb
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  UseOnlyInMemoryDatabase: "false"
+  ASPNETCORE_URLS: "http://+:80"
+  # Connection strings will be provided via secrets

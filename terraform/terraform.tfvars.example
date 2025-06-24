@@ -1,0 +1,17 @@
+environment_name = "dev"
+location = "East US"
+
+# Generate secure passwords or get them from environment variables
+# sql_admin_password = "your-secure-password-here"
+# app_user_password = "your-app-user-password-here"
+
+# Optional: Override default resource names
+# resource_group_name = "rg-eshoponweb-dev"
+# web_service_name = "app-eshoponweb-dev"
+# app_service_plan_name = "plan-eshoponweb-dev"
+# key_vault_name = "kv-eshoponweb-dev"
+# catalog_database_server_name = "sql-catalog-dev"
+# identity_database_server_name = "sql-identity-dev"
+
+# If you have a specific principal ID for access
+# principal_id = "your-user-or-service-principal-object-id"
