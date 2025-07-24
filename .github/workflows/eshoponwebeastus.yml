@@ -4,8 +4,7 @@
 #on: [push, workflow_dispatch]
 on:
 push:
-branches:
-- main
+branches: workflow_dispatch
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
