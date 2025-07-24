@@ -2,7 +2,10 @@
 
 #Triggers (uncomment line below to use it)
 #on: [push, workflow_dispatch]
-on: workflow_dispatch
+on:
+push:
+branches:
+- main
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
