@@ -114,7 +114,19 @@ resource "azurerm_mssql_firewall_rule" "identity_azure" {
   name             = "Azure Services"
   server_id        = azurerm_mssql_server.identity.id
   start_ip_address = "0.0.0.1"
-  end_ip_address   = "255.255.255.254"
+# SQL Server Firewall Rules - Allow only specific IP addresses
+resource "azurerm_mssql_firewall_rule" "catalog_allowed" {
+  name             = "AppServiceAccess"
+  server_id        = azurerm_mssql_server.catalog.id
+  start_ip_address = var.app_service_ip_address
+  end_ip_address   = var.app_service_ip_address
+}
+
+resource "azurerm_mssql_firewall_rule" "identity_allowed" {
+  name             = "AppServiceAccess"
+  server_id        = azurerm_mssql_server.identity.id
+  start_ip_address = var.app_service_ip_address
+  end_ip_address   = var.app_service_ip_address
 }
 
 # Store connection strings in Key Vault
