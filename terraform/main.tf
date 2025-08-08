@@ -63,7 +63,7 @@ resource "azurerm_mssql_server" "catalog" {
   administrator_login           = "sqlAdmin"
   administrator_login_password  = var.sql_admin_password
   minimum_tls_version           = "1.2"
-  public_network_access_enabled = true
+  public_network_access_enabled = false
   tags                          = local.tags
 }
 
