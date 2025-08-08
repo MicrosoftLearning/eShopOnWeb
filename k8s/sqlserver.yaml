@@ -42,6 +42,21 @@ spec:
       - name: sqlserver-storage
         emptyDir: {}
 ---
+        persistentVolumeClaim:
+          claimName: sqlserver-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sqlserver-pvc
+  namespace: eshoponweb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
 apiVersion: v1
 kind: Service
 metadata:
