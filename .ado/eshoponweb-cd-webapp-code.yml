@@ -40,7 +40,7 @@ stages:
         resourceGroupName: '$(resource-group)'
         location: '$(location)'
         templateLocation: 'Linked artifact'
-        csmFile: '$(Pipeline.Workspace)/Bicep/$(templateFile)'
+        csmFile: '$(Pipeline.Workspace)/eshoponweb-ci/Bicep/$(templateFile)'
         overrideParameters: '-webAppName $(webappname) -location $(location)'
         deploymentMode: 'Incremental'
         deploymentOutputs: 'asp-json'
@@ -53,7 +53,7 @@ stages:
         azureSubscription: '$(azureserviceconnection)'
         appType: 'webApp'
         WebAppName: '$(webappname)'
-        packageForLinux: '$(Pipeline.Workspace)/Website/Web.zip'
+        packageForLinux: '$(Pipeline.Workspace)/eshoponweb-ci/Website/Web.zip'
       
 
     
