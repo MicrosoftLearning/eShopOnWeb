@@ -9,7 +9,7 @@ env:
   RESOURCE-GROUP: rg-eshoponweb-westeurope
   LOCATION: westeurope
   TEMPLATE-FILE: infra/webapp.bicep
-  SUBSCRIPTION-ID: 97718e1b-005b-4f7c-9928-1f5b7c4b02d2
+  SUBSCRIPTION-ID: ${{ secrets.Subscription }}
   WEBAPP-NAME: eshoponweb-webapp-centralus-agl123
 
 
