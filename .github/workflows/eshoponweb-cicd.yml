@@ -10,7 +10,7 @@ env:
   LOCATION: centralus
   TEMPLATE-FILE: infra/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.Subscription }}
-  WEBAPP-NAME: eshoponweb-webapp-centralus-agl
+  WEBAPP-NAME: eshoponweb-webapp-centralus-agl123
 
 
 jobs:
