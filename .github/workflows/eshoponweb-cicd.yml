@@ -10,7 +10,7 @@ env:
   LOCATION: southcentralus
   TEMPLATE-FILE: infra/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.Subscription }}
-  WEBAPP-NAME: eshoponweb-webapp-westeurope-agl34
+  WEBAPP-NAME: eshoponweb-webapp54552789
 
 jobs:
   #Build, test and publish .net web project in repository
