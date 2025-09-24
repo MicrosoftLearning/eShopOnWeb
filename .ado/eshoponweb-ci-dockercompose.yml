@@ -54,7 +54,7 @@ stages:
           Write-Host "##vso[task.setvariable variable=acrloginserver;]$value"
           echo $acrloginserver
     # docker compose build images
-    - task: DockerCompose@0
+    - task: DockerCompose@1
       displayName: Build Docker Compose
       inputs:
         containerregistrytype: 'Azure Container Registry'
@@ -65,7 +65,7 @@ stages:
         action: 'Build services'
         additionalImageTags: '$(Build.BuildNumber)'
         includeLatestTag: true
-    - task: DockerCompose@0
+    - task: DockerCompose@1
       displayName: Push Docker Compose
       inputs:
         containerregistrytype: 'Azure Container Registry'
