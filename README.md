@@ -1,3 +1,4 @@
+[![Github Actions demo](https://github.com/ronald-v-tech/eShopOnWeb/actions/workflows/workflow-demo.yml/badge.svg)](https://github.com/ronald-v-tech/eShopOnWeb/actions/workflows/workflow-demo.yml)
 [![Build Status](https://github.com/dotnet-architecture/eShopOnWeb/workflows/eShopOnWeb%20Build%20and%20Test/badge.svg)](https://github.com/dotnet-architecture/eShopOnWeb/actions)
 
 # Microsoft eShopOnWeb ASP.NET Core Reference Application
