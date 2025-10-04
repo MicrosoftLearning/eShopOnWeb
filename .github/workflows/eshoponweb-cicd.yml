@@ -5,11 +5,11 @@ on: workflow_dispatch
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
-  RESOURCE-GROUP: rg-eshoponweb-westeurope
+  RESOURCE-GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
   LOCATION: westeurope
   TEMPLATE-FILE: infra/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  WEBAPP-NAME: devops-webapp-westeurope-178376703
+  WEBAPP-NAME: ${{ secrets.AZURE_WEBAPP_NAME }}
 
 
 jobs:
@@ -78,14 +78,29 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
            
     # Deploy Azure WebApp using Bicep file
-    - name: deploy
-      uses: azure/arm-deploy@v2
+    - name: Deploy infrastructure
+      uses: Azure/cli@v2
       with:
-        subscriptionId: ${{ env.SUBSCRIPTION-ID }}
-        resourceGroupName: ${{ env.RESOURCE-GROUP }}
-        template: bicep-template/webapp.bicep
-        parameters: 'webAppName=${{ env.WEBAPP-NAME }} location=${{ env.LOCATION }}'
-        failOnStdErr: false   
+        inlineScript: |
+          az deployment group create \
+            --name webapp-deployment-${{ github.run_number }} \
+            --resource-group ${{ env.RESOURCE-GROUP }} \
+            --template-file bicep-template/webapp.bicep \
+            --parameters webAppName=${{ env.WEBAPP-NAME }} location=${{ env.LOCATION }} \
+            --output json
+    
+    # Get the Web App Name from deployment output
+    - name: Get WebApp Details
+      id: webapp
+      uses: Azure/cli@v2
+      with:
+        inlineScript: |
+          webAppName=$(az deployment group show \
+            --name webapp-deployment-${{ github.run_number }} \
+            --resource-group ${{ env.RESOURCE-GROUP }} \
+            --query 'properties.outputs.webAppName.value' \
+            --output tsv)
+          echo "webapp-name=$webAppName" >> $GITHUB_OUTPUT
     
     # Publish website to Azure App Service (WebApp)
     # Step disabled due to issue where the site sometimes can't be found: https://github.com/microsoft/pipelines-appservice-lib/issues/56. Instead deploy using CLI
@@ -102,4 +117,4 @@ jobs:
       uses: Azure/cli@v2
       with:
         inlineScript: |
-             az webapp deploy --name ${{ env.WEBAPP-NAME }} --resource-group ${{ env.RESOURCE-GROUP }} --src-path .net-app/app.zip --type zip
+             az webapp deploy --name ${{ steps.webapp.outputs.webapp-name }} --resource-group ${{ env.RESOURCE-GROUP }} --src-path .net-app/app.zip --type zip
