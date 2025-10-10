@@ -1,0 +1,29 @@
+# Development Environment Configuration
+environment         = "dev"
+resource_group_name = "rg-eshoponweb"
+location            = "East US"
+
+# AKS Configuration
+cluster_name       = "aks-eshoponweb"
+kubernetes_version = "1.28"
+node_count         = 2
+vm_size            = "Standard_B2s"
+
+# Autoscaling
+enable_auto_scaling = false
+
+# Network
+vnet_address_space = ["10.0.0.0/16"]
+subnet_prefixes = {
+  aks     = "10.0.1.0/24"
+  gateway = "10.0.2.0/24"
+}
+
+# ACR
+acr_sku = "Basic"
+
+tags = {
+  Environment = "Development"
+  Application = "eShopOnWeb"
+  ManagedBy   = "Terraform"
+}

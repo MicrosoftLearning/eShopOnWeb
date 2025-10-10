@@ -1,0 +1,33 @@
+# Production Environment Configuration
+environment         = "production"
+resource_group_name = "rg-eshoponweb"
+location            = "East US"
+
+# AKS Configuration
+cluster_name       = "aks-eshoponweb"
+kubernetes_version = "1.28"
+node_count         = 3
+vm_size            = "Standard_D4s_v3"
+
+# Autoscaling
+enable_auto_scaling = true
+min_node_count      = 3
+max_node_count      = 10
+max_pods            = 50
+
+# Network
+vnet_address_space = ["10.2.0.0/16"]
+subnet_prefixes = {
+  aks     = "10.2.1.0/24"
+  gateway = "10.2.2.0/24"
+}
+
+# ACR
+acr_sku = "Premium"
+
+tags = {
+  Environment = "Production"
+  Application = "eShopOnWeb"
+  ManagedBy   = "Terraform"
+  CostCenter  = "Engineering"
+}
