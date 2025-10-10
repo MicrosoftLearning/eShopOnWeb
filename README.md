@@ -161,6 +161,65 @@ You should be able to make requests to localhost:5106 for the Web project, and l
 
 You can also run the applications by using the instructions located in their `Dockerfile` file in the root of each project. Again, run these commands from the root of the solution (where the .sln file is located).
 
+## Deployment Options
+
+### Kubernetes Deployment
+
+Deploy eShopOnWeb to a Kubernetes cluster using the provided manifests and Kustomize configurations.
+
+**Quick Start:**
+```bash
+# Build and push images
+docker-compose build
+docker tag eshopwebmvc:latest <your-registry>/eshopwebmvc:latest
+docker tag eshoppublicapi:latest <your-registry>/eshoppublicapi:latest
+docker push <your-registry>/eshopwebmvc:latest
+docker push <your-registry>/eshoppublicapi:latest
+
+# Deploy to Kubernetes
+cd deploy/k8s
+kubectl apply -k .
+```
+
+For detailed instructions, environment-specific deployments, and configuration options, see [deploy/k8s/README.md](deploy/k8s/README.md).
+
+**Supported Platforms:**
+- Azure Kubernetes Service (AKS)
+- Amazon Elastic Kubernetes Service (EKS)
+- Google Kubernetes Engine (GKE)
+- On-premises Kubernetes clusters
+
+### Terraform Infrastructure as Code
+
+Provision and manage Azure infrastructure using Terraform, including AKS cluster, networking, and container registry.
+
+**Quick Start:**
+```bash
+cd deploy/terraform
+terraform init
+terraform plan
+terraform apply
+```
+
+For comprehensive documentation on modules, variables, environments, and best practices, see [deploy/terraform/README.md](deploy/terraform/README.md).
+
+**Provisioned Resources:**
+- Azure Kubernetes Service (AKS)
+- Azure Container Registry (ACR)
+- Virtual Network and Subnets
+- Network Security Groups
+- Storage Account
+
+### Azure Bicep Deployment
+
+The repository also includes Azure Bicep templates in the `infra/` directory for provisioning Azure resources such as:
+- Azure App Service
+- Azure Container Instances (ACI)
+- Azure SQL Database
+- Key Vault
+
+See the `infra/` directory for Bicep deployment templates.
+
 ## Community Extensions
 
 We have some great contributions from the community, and while these aren't maintained by Microsoft we still want to highlight them.

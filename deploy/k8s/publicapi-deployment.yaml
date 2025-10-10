@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshop-publicapi
+  namespace: eshoponweb
+  labels:
+    app: eshop-publicapi
+    component: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eshop-publicapi
+  template:
+    metadata:
+      labels:
+        app: eshop-publicapi
+        component: api
+    spec:
+      containers:
+      - name: publicapi
+        image: eshoppublicapi:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: eshop-config
+              key: ASPNETCORE_ENVIRONMENT
+        - name: UseOnlyInMemoryDatabase
+          valueFrom:
+            configMapKeyRef:
+              name: eshop-config
+              key: UseOnlyInMemoryDatabase
+        - name: ASPNETCORE_HTTP_PORTS
+          valueFrom:
+            configMapKeyRef:
+              name: eshop-config
+              key: ASPNETCORE_HTTP_PORTS
+        - name: ASPNETCORE_HTTPS_PORTS
+          valueFrom:
+            configMapKeyRef:
+              name: eshop-config
+              key: ASPNETCORE_HTTPS_PORTS
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /swagger/index.html
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /swagger/index.html
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      # Uncomment if using private container registry
+      # imagePullSecrets:
+      # - name: registry-credentials

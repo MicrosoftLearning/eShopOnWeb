@@ -1,0 +1,43 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: eshoponweb
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - web-deployment.yaml
+  - web-service.yaml
+  - publicapi-deployment.yaml
+  - publicapi-service.yaml
+  - ingress.yaml
+
+# Add common labels to all resources
+commonLabels:
+  app.kubernetes.io/name: eshoponweb
+  app.kubernetes.io/version: "1.0"
+  app.kubernetes.io/managed-by: kustomize
+
+# Image transformations (update with your registry)
+images:
+  - name: eshopwebmvc
+    newName: your-registry.azurecr.io/eshopwebmvc
+    newTag: latest
+  - name: eshoppublicapi
+    newName: your-registry.azurecr.io/eshoppublicapi
+    newTag: latest
+
+# ConfigMap generator for environment-specific overrides
+# configMapGenerator:
+# - name: eshop-config
+#   behavior: merge
+#   literals:
+#   - ASPNETCORE_ENVIRONMENT=Development
+
+# Secret generator (use for environment-specific secrets)
+# secretGenerator:
+# - name: eshop-secrets
+#   behavior: merge
+#   literals:
+#   - DATABASE_PASSWORD=YourSecretPassword

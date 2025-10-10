@@ -1,0 +1,36 @@
+# Example Terraform variables file
+# Copy this file to terraform.tfvars and update with your values
+
+# Resource Group Configuration
+resource_group_name = "rg-eshoponweb"
+location            = "East US"
+environment         = "dev"
+
+# AKS Configuration
+cluster_name       = "aks-eshoponweb"
+kubernetes_version = "1.28"
+node_count         = 2
+vm_size            = "Standard_D2s_v3"
+
+# Autoscaling Configuration
+enable_auto_scaling = true
+min_node_count      = 2
+max_node_count      = 5
+max_pods            = 30
+
+# Network Configuration
+vnet_address_space = ["10.0.0.0/16"]
+subnet_prefixes = {
+  aks     = "10.0.1.0/24"
+  gateway = "10.0.2.0/24"
+}
+
+# Azure Container Registry
+acr_sku = "Basic"
+
+# Tags
+tags = {
+  Application = "eShopOnWeb"
+  ManagedBy   = "Terraform"
+  Owner       = "DevOps Team"
+}

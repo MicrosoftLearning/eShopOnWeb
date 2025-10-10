@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eshop-config
+  namespace: eshoponweb
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  UseOnlyInMemoryDatabase: "true"
+  ASPNETCORE_HTTP_PORTS: "8080"
+  ASPNETCORE_HTTPS_PORTS: "8443"
