@@ -457,7 +457,10 @@ terraform init -upgrade
 Validate configuration before applying:
 
 ```bash
-# Validate syntax
+# Run the validation script (comprehensive check)
+./validate.sh
+
+# Or manually validate
 terraform validate
 
 # Format code

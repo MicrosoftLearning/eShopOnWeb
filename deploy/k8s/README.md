@@ -175,7 +175,10 @@ kubectl autoscale deployment eshop-web --cpu-percent=70 --min=2 --max=10 -n esho
 Validate manifests before applying:
 
 ```bash
-# Dry-run validation
+# Run the validation script (checks YAML syntax and kubectl dry-run if available)
+./validate.sh
+
+# Or manually validate with kubectl
 kubectl apply -k . --dry-run=client
 
 # Server-side dry-run
