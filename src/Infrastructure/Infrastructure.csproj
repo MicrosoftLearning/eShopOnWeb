@@ -16,6 +16,7 @@
 		<ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+  	<PackageReference Include="Azure.Identity" VersionOverride="1.17.1" />
 		<Folder Include="Data\Migrations\" />
 	</ItemGroup>
 </Project>
