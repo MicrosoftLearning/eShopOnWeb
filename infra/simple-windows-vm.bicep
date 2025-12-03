@@ -55,7 +55,7 @@ param publicIpSku string = 'Basic'
 param OSVersion string = '2022-datacenter-azure-edition'
 
 @description('Size of the virtual machine.')
-param vmSize string = 'Standard_B1s'
+param vmSize string = 'Standard_B1ms'
 
 @description('Location for all resources.')
 param location string = resourceGroup().location
