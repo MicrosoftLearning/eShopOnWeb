@@ -11,7 +11,7 @@ resources:
 variables:
   resource-group: 'AZ400-EWebShop-NAME'
   location: 'centralus'
-  templateFile: 'infra/webapp.bicep'
+  templateFile: 'webapp.bicep'
   subscriptionid: 'YOUR-SUBSCRIPTION-ID'
   azureserviceconnection: 'azure subs'
   webappname: 'az400-webapp-NAME'
@@ -40,7 +40,7 @@ stages:
         resourceGroupName: '$(resource-group)'
         location: '$(location)'
         templateLocation: 'Linked artifact'
-        csmFile: '$(templateFile)'
+        csmFile: '$(Pipeline.Workspace)/eshoponweb-ci/Bicep/$(templateFile)'
         overrideParameters: '-webAppName $(webappname) -location $(location)'
         deploymentMode: 'Incremental'
         deploymentOutputs: 'asp-json'
@@ -53,7 +53,7 @@ stages:
         azureSubscription: '$(azureserviceconnection)'
         appType: 'webApp'
         WebAppName: '$(webappname)'
-        packageForLinux: '$(Pipeline.Workspace)/**/Web.zip'
+        packageForLinux: '$(Pipeline.Workspace)/eshoponweb-ci/Website/Web.zip'
       
 
     
