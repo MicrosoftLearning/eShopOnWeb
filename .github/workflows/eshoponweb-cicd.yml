@@ -57,14 +57,14 @@ jobs:
     steps:
       #Download the publish files created in previous job
       - name: Download artifact from build job
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: .net-app
           path: .net-app
 
       #Download the bicep templates from previous job
       - name: Download artifact from build job
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: bicep-template
           path: bicep-template
