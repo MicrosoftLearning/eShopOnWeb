@@ -1,4 +1,4 @@
-param webAppName string = uniqueString(resourceGroup().id) // Generate unique String for web app name
+param webAppName string // = uniqueString(resourceGroup().id) // unique String gets created from az cli instructions
 param sku string = 'S1' // The SKU of App Service Plan
 param location string = resourceGroup().location
 
