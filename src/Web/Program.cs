@@ -1,4 +1,4 @@
-﻿using System.Net.Mime;
+using System.Net.Mime;
 using Ardalis.ListStartupServices;
 using Azure.Identity;
 using BlazorAdmin;
@@ -106,7 +106,7 @@ var useAppConfig = false;
 Boolean.TryParse(builder.Configuration["UseAppConfig"], out useAppConfig);
 // Add Azure App Configuration middleware to the container of services.
 builder.Services.AddAzureAppConfiguration();
-builder.Services.AddFeatureManagement();
+
 // Load configuration from Azure App Configuration
 if (useAppConfig)
 {
@@ -132,6 +132,9 @@ if (useAppConfig)
         });
     });
 }
+
+// Add Feature Management AFTER Azure App Configuration is loaded
+builder.Services.AddFeatureManagement();
 
 // blazor configuration
 var configSection = builder.Configuration.GetRequiredSection(BaseUrlConfiguration.CONFIG_NAME);
