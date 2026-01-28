@@ -1,0 +1,46 @@
+@page "/feature-diagnostics"
+@using Microsoft.FeatureManagement
+@inject IFeatureManager FeatureManager
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Feature Diagnostics";
+    var salesWeekendEnabled = await FeatureManager.IsEnabledAsync("SalesWeekend");
+    var useAppConfig = Configuration["UseAppConfig"];
+    var appConfigEndpoint = Configuration["AppConfigEndpoint"];
+    var featureFlagConfig = Configuration["FeatureManagement:SalesWeekend"];
+}
+
+<h1>Feature Flag Diagnostics</h1>
+
+<table class="table">
+    <tr>
+        <td><strong>UseAppConfig</strong></td>
+        <td>@(useAppConfig ?? "(not set)")</td>
+    </tr>
+    <tr>
+        <td><strong>AppConfigEndpoint</strong></td>
+        <td>@(string.IsNullOrEmpty(appConfigEndpoint) ? "(not set)" : appConfigEndpoint)</td>
+    </tr>
+    <tr>
+        <td><strong>SalesWeekend Feature Flag Enabled</strong></td>
+        <td style="color: @(salesWeekendEnabled ? "green" : "red"); font-weight: bold;">
+            @salesWeekendEnabled
+        </td>
+    </tr>
+    <tr>
+        <td><strong>FeatureManagement:SalesWeekend (from config)</strong></td>
+        <td>@(featureFlagConfig ?? "(not found in config)")</td>
+    </tr>
+    <tr>
+        <td><strong>ASPNETCORE_ENVIRONMENT</strong></td>
+        <td>@(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "(not set)")</td>
+    </tr>
+</table>
+
+<h2>What to check:</h2>
+<ul>
+    <li>If <strong>SalesWeekend Feature Flag Enabled</strong> is <span style="color:green">True</span>, the banner should show.</li>
+    <li>If it's <span style="color:red">False</span>, verify the feature flag in Azure App Configuration → Feature manager.</li>
+    <li>Ensure the feature flag name is exactly <code>SalesWeekend</code> (case-sensitive).</li>
+    <li>Ensure the feature flag has <strong>no label</strong>.</li>
+</ul>
