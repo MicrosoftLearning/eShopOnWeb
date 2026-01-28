@@ -99,8 +99,6 @@ builder.Services.Configure<ServiceConfig>(config =>
     config.Path = "/allservices";
 });
 
-// Bind configuration "eShopWeb:Settings" section to the Settings object
-builder.Services.Configure<SettingsViewModel>(builder.Configuration.GetSection("eShopWeb:Settings"));
 // Initialize useAppConfig parameter
 var useAppConfig = false;
 Boolean.TryParse(builder.Configuration["UseAppConfig"], out useAppConfig);
@@ -135,6 +133,10 @@ if (useAppConfig)
 
 // Add Feature Management AFTER Azure App Configuration is loaded
 builder.Services.AddFeatureManagement();
+
+// Bind configuration "eShopWeb:Settings" section to the Settings object
+// This must be AFTER Azure App Configuration is added so it picks up remote values
+builder.Services.Configure<SettingsViewModel>(builder.Configuration.GetSection("eShopWeb:Settings"));
 
 // blazor configuration
 var configSection = builder.Configuration.GetRequiredSection(BaseUrlConfiguration.CONFIG_NAME);
