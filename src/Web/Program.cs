@@ -1,3 +1,6 @@
+// Program file
+// Module: web
+
 using System.Net.Mime;
 using Ardalis.ListStartupServices;
 using Azure.Identity;
