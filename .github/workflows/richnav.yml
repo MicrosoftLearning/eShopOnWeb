@@ -7,16 +7,16 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
         with:
           dotnet-version: 8.0.x
 
       - name: Build with dotnet
         run: dotnet build ./Everything.sln --configuration Release /bl
 
-      - uses: microsoft/RichCodeNavIndexer@v0.1
+      - uses: microsoft/RichCodeNavIndexer@c8b97bc908f7bc0151fe4872aa029e99b2a0b96b # v0.1
         with:
           repo-token: ${{ github.token }}
           languages: "csharp"
