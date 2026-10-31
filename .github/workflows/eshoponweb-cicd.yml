@@ -5,10 +5,10 @@ on: [push, workflow_dispatch]
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
-  RESOURCE-GROUP: Sirin-RG
+  RESOURCE-GROUP: az400-RG
   LOCATION: centralus
   TEMPLATE-FILE: infra/webapp.bicep
-  SUBSCRIPTION-ID: e6b761fc-f852-4952-a285-9edfc03004db
+  SUBSCRIPTION-ID: a56376f3-73a3-42a1-96cd-e03e98b9d724
   WEBAPP-NAME: eshoponweb-webapp-sirin
 
 jobs:
@@ -73,7 +73,7 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.mycred }}
 
       # Deploy Azure WebApp using Bicep file
       - name: deploy
