@@ -96,7 +96,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   sku: {
     name: 'Standard_LRS'
   }
-  kind: 'Storage'
+  kind: 'StorageV2'
 }
 
 resource publicIp 'Microsoft.Network/publicIPAddresses@2022-05-01' = {
