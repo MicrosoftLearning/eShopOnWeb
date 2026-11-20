@@ -46,6 +46,10 @@ resource sqlDeploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' 
   name: '${name}-deployment-script'
   location: location
   kind: 'AzureCLI'
+  dependsOn: [
+    sqlServer::database
+    sqlServer::firewall
+  ]
   properties: {
     azCliVersion: '2.37.0'
     retentionInterval: 'PT1H' // Retain the script resource for 1 hour after it ends running
